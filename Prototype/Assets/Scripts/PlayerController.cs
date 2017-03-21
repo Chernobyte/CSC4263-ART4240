@@ -16,14 +16,14 @@ public class PlayerController : MonoBehaviour
 	//for aiming
 	public Transform gun;
 	public float fRadius = 1.0f;
-	public float bulletSpeed = 5.0f;
+	public float bulletForce = 5.0f;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up arm with character's shoulder
 	//bullet
 	public GameObject bullet;
 	public float bulletSpawnOffset = 1.2f;
 	public float fireRate = 1.0f;
 
-	private float angle = 0.0f;
+	private float angle;
 	private Vector3 gunPos = new Vector3(1.0f, 0.0f, 0.0f);
 	private bool canFire = true;
 
@@ -44,6 +44,10 @@ public class PlayerController : MonoBehaviour
 		/*currentHealth = maxHealth;
 		gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
 		gun.position = transform.position + gunPos + gunPosOffset;*/
+		if(isP1)
+			angle = 0.0f;
+		else
+			angle = 180.0f;
 	}
 	
 	// Update is called once per frame
@@ -54,12 +58,9 @@ public class PlayerController : MonoBehaviour
 
 	private void HandleInput()
 	{
-		//get controller state
-		//var fireState = gamepad.R2();
-
 		//handle movemement
 
-		bool moveLeft, moveRight, aimUp, aimDown;
+		bool moveLeft, moveRight, aimUp, aimDown,fireKey;
 
 		//Player 1
 		if(isP1)
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
 			moveRight 	= Input.GetKey(KeyCode.D);
 			aimUp 		= Input.GetKey(KeyCode.W);
 			aimDown 	= Input.GetKey(KeyCode.S);
+			fireKey		= Input.GetKey(KeyCode.F);
 		}
 		//Player 2
 		else
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
 			moveRight 	= Input.GetKey(KeyCode.RightArrow);
 			aimUp 		= Input.GetKey(KeyCode.UpArrow);
 			aimDown 	= Input.GetKey(KeyCode.DownArrow);
+			fireKey		= Input.GetKey(KeyCode.Semicolon);
 		}
 			
 		if(moveLeft)
@@ -83,20 +86,29 @@ public class PlayerController : MonoBehaviour
 			//Vector3 movement = new Vector3(
 			_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
 		}
-		if(moveRight)
+		else if(moveRight)
 		{
 			//Vector3 movement = new Vector3(
 			_rb.velocity = new Vector3(maxSpeed, 0.0f, 0.0f);
 		}
 
 
-		// handle aiming (right stick)
+		// handle aiming 
+
 		if (aimUp) 
 		{
-			//angle = Mathf.Atan2 (controllerStateR.y, controllerStateR.x) * Mathf.Rad2Deg;
-			angle += aimSpeed * Time.deltaTime; 
-			if(angle >= 360.0f)
-				angle = 0.0f;
+			if(isP1)
+			{
+				angle += aimSpeed * Time.deltaTime;
+				if(angle >= 90.0f)
+					angle = 90.0f;
+			}
+			else
+			{
+				angle -= aimSpeed * Time.deltaTime;
+				if(angle <= 90.0f)
+					angle = 90.0f;
+			}
 			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
 			//gun.position = transform.position + gunPos + gunPosOffset;
 
@@ -104,10 +116,18 @@ public class PlayerController : MonoBehaviour
 		}
 		else if(aimDown)
 		{
-			//angle = Mathf.Atan2 (controllerStateR.y, controllerStateR.x) * Mathf.Rad2Deg;
-			angle -= aimSpeed * Time.deltaTime; 
-			if(angle <= 0.0f)
-				angle = 360.0f;
+			if(isP1)
+			{
+				angle -= aimSpeed * Time.deltaTime; 
+				if(angle <= 0.0f)
+					angle = 0.0f;
+			}
+			else
+			{
+				angle += aimSpeed * Time.deltaTime; 
+				if(angle >= 180.0f)
+					angle = 180.0f;
+			}
 			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
 			//gun.position = transform.position + gunPos + gunPosOffset;
 
@@ -115,15 +135,15 @@ public class PlayerController : MonoBehaviour
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		/*if (fireState > 0.2f && canFire) 
+		if(Input.GetKey(KeyCode.F) && canFire)
 		{
 			FireWeapon ();
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
-		}*/
+		}
 	}
 
-	/*IEnumerator FireRoutine(float duration)
+	IEnumerator FireRoutine(float duration)
 	{
 		yield return new WaitForSeconds (duration);
 		canFire = true;
@@ -135,6 +155,6 @@ public class PlayerController : MonoBehaviour
 			gun.transform.position + (gun.transform.right * bulletSpawnOffset), 
 			gun.transform.rotation);
 		Rigidbody2D rb = curBullet.GetComponent<Rigidbody2D> ();
-		rb.velocity = new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletSpeed;
-	}*/
+		rb.AddForce(new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletForce);
+	}
 }
