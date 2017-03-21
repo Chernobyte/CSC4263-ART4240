@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour 
 {
+	//
+	// Will restructure code later. It's pretty ugly and inefficient at the moment
+	//
+	public bool isP1;
+	public float aimSpeed = 0.5f;
 	public float maxSpeed = 10.0f;
 	public int maxHealth = 2000;
 	public int currentHealth;
@@ -51,125 +56,66 @@ public class PlayerController : MonoBehaviour
 	{
 		//get controller state
 		//var fireState = gamepad.R2();
-		/*controllerState.x = gamepad.Move_X();
-		controllerState.y = gamepad.Move_Y();
-		controllerStateR.x = gamepad.Aim_X();
-		controllerStateR.y = gamepad.Aim_Y();
 
-		var jumpInputReceived = gamepad.R1();
-		var jumpInputStopped = gamepad.R1Up();
-		var fireState = gamepad.R2();
-		var ability1 = gamepad.L1();
-		var ability2 = gamepad.L2();
+		//handle movemement
 
-		// Left Stick Right Tilt
-		if (controllerState.x > 0.2)
+		bool moveLeft, moveRight, aimUp, aimDown;
+
+		//Player 1
+		if(isP1)
 		{
-			if (currentSpeed < maxSpeed)
-			{
-				currentSpeed += acceleration;
-				if (currentSpeed > maxSpeed)
-					currentSpeed = maxSpeed;
-			}
+			moveLeft 	= Input.GetKey(KeyCode.A);
+			moveRight 	= Input.GetKey(KeyCode.D);
+			aimUp 		= Input.GetKey(KeyCode.W);
+			aimDown 	= Input.GetKey(KeyCode.S);
 		}
-		// Left Stick Left Tilt
-		else if (controllerState.x < -0.2)
-		{
-			if (currentSpeed > -maxSpeed)
-			{
-				currentSpeed -= acceleration;
-				if (currentSpeed < -maxSpeed)
-					currentSpeed = -maxSpeed;
-			}
-		}
-		// No Left Stick X Input
+		//Player 2
 		else
 		{
-			applyDecelerationThisTick = true;
+			moveLeft 	= Input.GetKey(KeyCode.LeftArrow);
+			moveRight 	= Input.GetKey(KeyCode.RightArrow);
+			aimUp 		= Input.GetKey(KeyCode.UpArrow);
+			aimDown 	= Input.GetKey(KeyCode.DownArrow);
 		}
-
-		// Left Stick Y Input
-		if (controllerState.y < -0.8)
-		{
-			if (!onGround && !onWallLeft && !onWallRight)
-			{
-				fastFalling = true;
-			}
-		}
-
-		if (jumpInputReceived)
-		{
-			jumpPressedTime = Time.time;
-
-			if (canJump)
-			{
-				if (onWallLeft && !onGround && canWallJumpToRight)
-				{
-					wallJumpBufferState = true;
-				}
-				else if (onWallRight && !onGround && canWallJumpToLeft)
-				{
-					wallJumpBufferState = true;
-
-				}
-				else if (currentJumpCount < maxcurrentJumpCount)
-				{
-					if (onGround)
-					{
-						jumpBufferState = true;
-					}
-					else
-					{
-						AirJump();
-					}
-				}
-			}
-		}
-
-		if (jumpInputStopped)
-		{
-			jumpReleasedTime = Time.time;
-		}*/
-
-		//handle movement
-		float moveHorizontal = Input.GetAxis("Horizontal");
-		float moveVertical = Input.GetAxis("Vertical"); 
-
-		bool moveLeft 	= Input.GetKey(KeyCode.A);
-		bool moveRight 	= Input.GetKey(KeyCode.D);
-		bool aimUp 		= Input.GetKey(KeyCode.W);
-		bool aimDown 	= Input.GetKey(KeyCode.S);
-
-
-		if (moveHorizontal != 0.0f || moveVertical != 0.0f)
-		{
-			Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
-			_rb.velocity = (movement * maxSpeed * .1f);
-		}
-
+			
 		if(moveLeft)
 		{
 			//Vector3 movement = new Vector3(
 			_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
 		}
-
+		if(moveRight)
+		{
+			//Vector3 movement = new Vector3(
+			_rb.velocity = new Vector3(maxSpeed, 0.0f, 0.0f);
+		}
 
 
 		// handle aiming (right stick)
-		/*if (controllerStateR.magnitude > 0.2f) 
+		if (aimUp) 
 		{
-			angle = Mathf.Atan2 (controllerStateR.y, controllerStateR.x) * Mathf.Rad2Deg;
+			//angle = Mathf.Atan2 (controllerStateR.y, controllerStateR.x) * Mathf.Rad2Deg;
+			angle += aimSpeed * Time.deltaTime; 
+			if(angle >= 360.0f)
+				angle = 0.0f;
 			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
 			//gun.position = transform.position + gunPos + gunPosOffset;
 
-			// handle gun rotation (why the fuck is it gettign skewed? the scale doesnt change?)
-			//because the player's y value for their scale is 2, numbnutz. and this passes down to the child
-			//How to fix this without changing the player's x,y scale values to 1?
+			gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+		}
+		else if(aimDown)
+		{
+			//angle = Mathf.Atan2 (controllerStateR.y, controllerStateR.x) * Mathf.Rad2Deg;
+			angle -= aimSpeed * Time.deltaTime; 
+			if(angle <= 0.0f)
+				angle = 360.0f;
+			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
+			//gun.position = transform.position + gunPos + gunPosOffset;
+
 			gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		if (fireState > 0.2f && canFire) 
+		/*if (fireState > 0.2f && canFire) 
 		{
 			FireWeapon ();
 			canFire = false;
