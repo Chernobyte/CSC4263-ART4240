@@ -27,7 +27,11 @@ public class Bullet2 : MonoBehaviour {
 		if (collision.gameObject.CompareTag ("Platform") || collision.gameObject.CompareTag ("Player")) 
 		{
 			if(collision.gameObject.name != "PRBody")
+			{
+				if(collision.gameObject.name == "PLBody")
+					collision.gameObject.GetComponent<PlayerController>().currentHealth -= 10;
 				Destroy (gameObject);
+			}
 		}
 	}
 }

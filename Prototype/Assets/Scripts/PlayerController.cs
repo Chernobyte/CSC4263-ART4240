@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
 	public bool isP1;
 	public float aimSpeed = 100.0f;
 	public float maxSpeed = 10.0f;
-	public int maxHealth = 2000;
+	public int maxHealth = 100;
 	public int currentHealth;
 
 	//for aiming
@@ -24,13 +25,16 @@ public class PlayerController : MonoBehaviour
 	public float fireRate = 1.0f;
 
 	private float angle;
-	private Vector3 gunPos = new Vector3(1.0f, 0.0f, 0.0f);
+	private Vector3 gunPos;
 	private bool canFire = true;
 
 	//private Overlord overlord;
-	private PlayerUI playerUI;
+	//private PlayerUI playerUI;
 	private Rigidbody2D _rb;
 	private BoxCollider2D _col;
+
+	public GameObject opponent;
+	public Canvas canvas;
 
 	private float currentSpeed = 0.0f;
 
@@ -41,7 +45,8 @@ public class PlayerController : MonoBehaviour
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
 
-		//currentHealth = maxHealth;
+		currentHealth = maxHealth;
+
 		if(isP1)
 		{
 			angle = 0.0f;
@@ -58,7 +63,9 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		//UpdateHealthBar();
+		//while(
 		HandleInput();
+		CheckHealth();
 	}
 
 	private void HandleInput()
@@ -163,5 +170,34 @@ public class PlayerController : MonoBehaviour
 			gun.transform.rotation);
 		Rigidbody2D rb = curBullet.GetComponent<Rigidbody2D> ();
 		rb.AddForce(new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletForce);
+	}
+
+	private void CheckHealth()
+	{
+		
+		if(currentHealth <= 0)
+		{
+			StartCoroutine(WinScreenRoutine(5.0f));
+			currentHealth = maxHealth;
+			opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
+		}
+	}
+
+	IEnumerator WinScreenRoutine(float duration)
+	{
+		//print winscreen message
+		//healthBar.GetComponent<Slider>().Value = currentHealth;
+		Text txt = canvas.GetComponentInChildren<Text>();
+		txt.enabled = true;
+		if(isP1)
+		{
+			txt.text = "Player 2 Wins";
+		}
+		else
+		{
+			txt.text = "Player 1 Wins";
+		}
+		yield return new WaitForSeconds(duration);
+		txt.enabled = false;
 	}
 }
