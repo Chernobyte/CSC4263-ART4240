@@ -62,10 +62,8 @@ public class PlayerController : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		//UpdateHealthBar();
-		//while(
-		HandleInput();
 		CheckHealth();
+		HandleInput();
 	}
 
 	private void HandleInput()
@@ -174,13 +172,24 @@ public class PlayerController : MonoBehaviour
 
 	private void CheckHealth()
 	{
-		
 		if(currentHealth <= 0)
 		{
 			StartCoroutine(WinScreenRoutine(5.0f));
 			currentHealth = maxHealth;
 			opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
+			
+		Slider healthBar;
+
+		if(isP1)
+		{
+			healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
+		}
+		else
+		{
+			healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
+		}
+		healthBar.value = currentHealth;
 	}
 
 	IEnumerator WinScreenRoutine(float duration)
