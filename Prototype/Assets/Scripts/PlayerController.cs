@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 	// Will restructure code later. It's pretty ugly and inefficient at the moment
 	//
 	public bool isP1;
-	public float aimSpeed = 0.5f;
+	public float aimSpeed = 100.0f;
 	public float maxSpeed = 10.0f;
 	public int maxHealth = 2000;
 	public int currentHealth;
@@ -41,13 +41,18 @@ public class PlayerController : MonoBehaviour
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
 
-		/*currentHealth = maxHealth;
-		gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
-		gun.position = transform.position + gunPos + gunPosOffset;*/
+		//currentHealth = maxHealth;
 		if(isP1)
+		{
 			angle = 0.0f;
+			gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
+		}
 		else
+		{
 			angle = 180.0f;
+			gunPos = new Vector3 (-fRadius, 0.0f, 0.0f);
+		}
+		gun.position = transform.position + gunPos + gunPosOffset;
 	}
 	
 	// Update is called once per frame
@@ -135,8 +140,10 @@ public class PlayerController : MonoBehaviour
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		if(Input.GetKey(KeyCode.F) && canFire)
+		if((( isP1 && (fireKey && Input.GetKey(KeyCode.F))) || 
+			(!isP1 && (fireKey && Input.GetKey(KeyCode.Semicolon)))) && canFire)
 		{
+			
 			FireWeapon ();
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
