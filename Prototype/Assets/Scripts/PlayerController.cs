@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
 	private float angle;
 	private Vector3 gunPos;
 	private bool canFire = true;
-	private bool shopOpen = false;
 
 	//private Overlord overlord;
 	//private PlayerUI playerUI;
@@ -35,11 +34,10 @@ public class PlayerController : MonoBehaviour
 	private BoxCollider2D _col;
 
 	public GameObject opponent;
-	public GameObject shopPrefab;
 	public Canvas canvas;
 
 	private float currentSpeed = 0.0f;
-	private int shotCharge = 0;
+
 
 	// Use this for initialization
 	void Start () 
@@ -112,14 +110,14 @@ public class PlayerController : MonoBehaviour
 			if(isP1)
 			{
 				angle += aimSpeed * Time.deltaTime;
-				if(angle > 60.0f)
-					angle = 60.0f;
+				if(angle >= 90.0f)
+					angle = 90.0f;
 			}
 			else
 			{
 				angle -= aimSpeed * Time.deltaTime;
-				if(angle < 120.0f)
-					angle = 120.0f;
+				if(angle <= 90.0f)
+					angle = 90.0f;
 			}
 			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
 			//gun.position = transform.position + gunPos + gunPosOffset;
@@ -131,13 +129,13 @@ public class PlayerController : MonoBehaviour
 			if(isP1)
 			{
 				angle -= aimSpeed * Time.deltaTime; 
-				if(angle < 0.0f)
+				if(angle <= 0.0f)
 					angle = 0.0f;
 			}
 			else
 			{
 				angle += aimSpeed * Time.deltaTime; 
-				if(angle > 180.0f)
+				if(angle >= 180.0f)
 					angle = 180.0f;
 			}
 			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
@@ -147,28 +145,13 @@ public class PlayerController : MonoBehaviour
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
-
 		if((( isP1 && (fireKey && Input.GetKey(KeyCode.F))) || 
 			(!isP1 && (fireKey && Input.GetKey(KeyCode.Semicolon)))) && canFire)
 		{
-			FireWeapon (10);
+			
+			FireWeapon ();
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
-		}
-
-		//all of this is just for the demo. will implement properly later
-		if((isP1 && Input.GetKey(KeyCode.G)) || (!isP1 && Input.GetKey(KeyCode.Quote)))
-		{
-			if(!shopOpen)
-			{
-				GameObject shop = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
-				shop.transform.SetParent(gameObject.transform);
-				shopOpen = true;
-			}else{
-				Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
-				shopOpen = false;
-			}
 		}
 	}
 
@@ -178,17 +161,15 @@ public class PlayerController : MonoBehaviour
 		canFire = true;
 	}
 
-	private void FireWeapon(int damage)
+	private void FireWeapon()
 	{
 		GameObject curBullet = Instantiate (bullet, 
 			gun.transform.position + (gun.transform.right * bulletSpawnOffset), 
 			gun.transform.rotation);
-		//curBullet = damage;
-		//curBullet.GetComponent<Bullet>().
 		Rigidbody2D rb = curBullet.GetComponent<Rigidbody2D> ();
 		rb.AddForce(new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletForce);
 	}
-		
+
 	private void CheckHealth()
 	{
 		if(currentHealth <= 0)

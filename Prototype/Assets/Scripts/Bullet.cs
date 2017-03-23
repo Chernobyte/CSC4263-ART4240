@@ -5,7 +5,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 	GameObject platform;
 	//public GameObject player;
-	int damage = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +16,8 @@ public class Bullet : MonoBehaviour {
 	void Update () {
 		Vector3 diff = transform.position - platform.transform.position;
 
-		if (diff.magnitude > 50f) Destroy (gameObject);
+		if (diff.magnitude > 50f)
+			Destroy (gameObject);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour {
 			if(collision.gameObject.name != "PLBody")
 			{
 				if(collision.gameObject.name == "PRBody")
-					collision.gameObject.GetComponent<PlayerController>().currentHealth -= damage;
+					collision.gameObject.GetComponent<PlayerController>().currentHealth -= 10;
 				Destroy (gameObject);
 			}
 		}
