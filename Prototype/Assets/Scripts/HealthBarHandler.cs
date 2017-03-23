@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class HealthBarHandler : MonoBehaviour
 {
-
+	private Slider healthBar;
+	private
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 	
 	}

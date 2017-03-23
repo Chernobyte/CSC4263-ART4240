@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
+		//if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
 
 		if((( isP1 && (fireKey && Input.GetKey(KeyCode.F))) || 
 			(!isP1 && (fireKey && Input.GetKey(KeyCode.Semicolon)))) && canFire)
@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		//all of this is just for the demo. will implement properly later
-		if((isP1 && Input.GetKey(KeyCode.G)) || (!isP1 && Input.GetKey(KeyCode.Quote)))
+		if((isP1 && Input.GetKeyDown(KeyCode.G)) || (!isP1 && Input.GetKeyDown(KeyCode.Quote)))
 		{
 			if(!shopOpen)
 			{
