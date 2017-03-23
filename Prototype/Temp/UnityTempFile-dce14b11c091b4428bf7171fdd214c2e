@@ -82,6 +82,7 @@
 'Assets/Scripts/CameraControl.cs'
 'Assets/Scripts/Explosion.cs'
 'Assets/Scripts/Grenade.cs'
+'Assets/Scripts/HealthBarHandler.cs'
 'Assets/Scripts/HealthDisplay.cs'
 'Assets/Scripts/InputController.cs'
 'Assets/Scripts/Player.cs'

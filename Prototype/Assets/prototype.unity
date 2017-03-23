@@ -1103,6 +1103,7 @@ MonoBehaviour:
   bulletSpawnOffset: -1
   fireRate: 1
   opponent: {fileID: 1752082710}
+  shopPrefab: {fileID: 1092022349248104, guid: c856e9e6f0a674317a3399847c48384a, type: 2}
   canvas: {fileID: 695602892}
 --- !u!50 &983468021
 Rigidbody2D:
@@ -1972,6 +1973,7 @@ MonoBehaviour:
   bulletSpawnOffset: -1
   fireRate: 1
   opponent: {fileID: 983468018}
+  shopPrefab: {fileID: 1092022349248104, guid: c856e9e6f0a674317a3399847c48384a, type: 2}
   canvas: {fileID: 695602892}
 --- !u!111 &1752082716
 Animation:

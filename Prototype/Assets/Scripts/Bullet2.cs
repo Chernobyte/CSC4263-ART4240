@@ -7,6 +7,7 @@ public class Bullet2 : MonoBehaviour {
 
 	GameObject platform;
 	//public GameObject player;
+	int damage = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -18,8 +19,9 @@ public class Bullet2 : MonoBehaviour {
 	void Update () {
 		Vector3 diff = transform.position - platform.transform.position;
 
-		if (diff.magnitude > 50f)
-			Destroy (gameObject);
+		if (diff.magnitude > 50f) Destroy (gameObject);
+
+
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +31,7 @@ public class Bullet2 : MonoBehaviour {
 			if(collision.gameObject.name != "PRBody")
 			{
 				if(collision.gameObject.name == "PLBody")
-					collision.gameObject.GetComponent<PlayerController>().currentHealth -= 10;
+					collision.gameObject.GetComponent<PlayerController>().currentHealth -= damage;
 				Destroy (gameObject);
 			}
 		}
