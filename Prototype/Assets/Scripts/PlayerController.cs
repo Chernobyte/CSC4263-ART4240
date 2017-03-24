@@ -5,41 +5,31 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
-	//
-	// Will restructure code later. It's pretty ugly and inefficient at the moment
-	//
 	public bool isP1;
-	public float aimSpeed = 100.0f;
-	public float maxSpeed = 10.0f;
 	public int maxHealth = 100;
 	public int currentHealth;
-
-	//for aiming
-	public Transform gun;
-	public float fRadius = 1.0f;
-	public float bulletForce = 5.0f;
-	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up arm with character's shoulder
-	//bullet
-	public GameObject bullet;
+	public float maxSpeed = 10.0f;
+	public float aimSpeed = 100.0f;
 	public float bulletSpawnOffset = 1.2f;
 	public float fireRate = 1.0f;
+	public float fRadius = 1.0f;
+	public float bulletForce = 5.0f;
 
-	private float angle;
-	private Vector3 gunPos;
+	public GameObject bullet, opponent, shopPrefab;
+	public Canvas canvas;
+	public Transform gun;
+	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
+
 	private bool canFire = true;
 	private bool shopOpen = false;
+	private int shotCharge = 0;
+	private float angle, aimRange, minAngle; //maxAngle = minAngle + aimRange
+	private float currentSpeed = 0.0f;
 
-	//private Overlord overlord;
-	//private PlayerUI playerUI;
+	private Vector3 gunPos;
 	private Rigidbody2D _rb;
 	private BoxCollider2D _col;
-
-	public GameObject opponent;
-	public GameObject shopPrefab;
-	public Canvas canvas;
-
-	private float currentSpeed = 0.0f;
-	private int shotCharge = 0;
+	private Slider healthBar;
 
 	// Use this for initialization
 	void Start () 
@@ -48,23 +38,33 @@ public class PlayerController : MonoBehaviour
 		//_col = gameObject.GetComponent<BoxCollider2D>();
 
 		currentHealth = maxHealth;
+		aimRange = 60.0f;
 
 		if(isP1)
 		{
 			angle = 0.0f;
 			gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
+			// range: [0,60]
+			minAngle = 0.0f;
+			healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
 		}
 		else
 		{
 			angle = 180.0f;
 			gunPos = new Vector3 (-fRadius, 0.0f, 0.0f);
+			// range: [120,180]
+			minAngle = 120.0f;
+			healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
+
+		//later, when more characters are added, we will have to map unique bullet prefabs if characters
+		//will have different shot types.
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		CheckHealth();
+		UpdateHealth();
 		HandleInput();
 	}
 
@@ -72,9 +72,9 @@ public class PlayerController : MonoBehaviour
 	{
 		//handle movemement
 
-		bool moveLeft, moveRight, aimUp, aimDown,fireKey;
+		bool moveLeft, moveRight, aimUp, aimDown, fireKey, shopKey;
 
-		//Player 1
+		// Player 1 controls
 		if(isP1)
 		{
 			moveLeft 	= Input.GetKey(KeyCode.A);
@@ -82,8 +82,9 @@ public class PlayerController : MonoBehaviour
 			aimUp 		= Input.GetKey(KeyCode.W);
 			aimDown 	= Input.GetKey(KeyCode.S);
 			fireKey		= Input.GetKey(KeyCode.F);
+			shopKey 	= Input.GetKeyDown (KeyCode.G);
 		}
-		//Player 2
+		// Player 2 controls (will i,j,k,l work better?)
 		else
 		{
 			moveLeft 	= Input.GetKey(KeyCode.LeftArrow);
@@ -91,74 +92,56 @@ public class PlayerController : MonoBehaviour
 			aimUp 		= Input.GetKey(KeyCode.UpArrow);
 			aimDown 	= Input.GetKey(KeyCode.DownArrow);
 			fireKey		= Input.GetKey(KeyCode.Semicolon);
+			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
 			
-		if(moveLeft)
-		{
-			//Vector3 movement = new Vector3(
-			_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
-		}
-		else if(moveRight)
-		{
-			//Vector3 movement = new Vector3(
-			_rb.velocity = new Vector3(maxSpeed, 0.0f, 0.0f);
-		}
-
+		// left/right movement
+		if(moveLeft) 		_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
+		else if(moveRight) 	_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
 
 		// handle aiming 
-
 		if (aimUp) 
 		{
-			if(isP1)
-			{
-				angle += aimSpeed * Time.deltaTime;
-				if(angle > 60.0f)
-					angle = 60.0f;
-			}
-			else
-			{
-				angle -= aimSpeed * Time.deltaTime;
-				if(angle < 120.0f)
-					angle = 120.0f;
-			}
-			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
-			//gun.position = transform.position + gunPos + gunPosOffset;
+			// counterclockwise
+			if (isP1) angle += aimSpeed * Time.deltaTime;
+			// clockwise
+			else angle -= aimSpeed * Time.deltaTime;
 
-			gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+			// constrain to aiming range
+			if (angle < minAngle) angle = minAngle;
+			else if (angle > minAngle + aimRange) angle = minAngle + aimRange;
 		}
 		else if(aimDown)
 		{
-			if(isP1)
-			{
-				angle -= aimSpeed * Time.deltaTime; 
-				if(angle < 0.0f)
-					angle = 0.0f;
-			}
-			else
-			{
-				angle += aimSpeed * Time.deltaTime; 
-				if(angle > 180.0f)
-					angle = 180.0f;
-			}
-			gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
-			//gun.position = transform.position + gunPos + gunPosOffset;
+			// clockwise
+			if (isP1) angle -= aimSpeed * Time.deltaTime;
+			// counterclockwise
+			else angle += aimSpeed * Time.deltaTime;
 
-			gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+			// constrain to aiming range
+			if (angle < minAngle) angle = minAngle;
+			else if (angle > minAngle + aimRange) angle = minAngle + aimRange;
 		}
+
+		// position & rotation of the cursor on fRadius
+		gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
+		gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+		// apply the cursor's new position with an added offset for minor tweaking
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		//if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
+		// charge shots?
+		// if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
 
-		if((( isP1 && (fireKey && Input.GetKey(KeyCode.F))) || 
-			(!isP1 && (fireKey && Input.GetKey(KeyCode.Semicolon)))) && canFire)
+		//fire handling
+		if(fireKey && canFire)
 		{
-			FireWeapon (10);
+			FireWeapon (10); //damage should depend on shot type
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
 		}
 
-		//all of this is just for the demo. will implement properly later
-		if((isP1 && Input.GetKeyDown(KeyCode.G)) || (!isP1 && Input.GetKeyDown(KeyCode.Quote)))
+
+		if(shopKey)
 		{
 			if(!shopOpen)
 			{
@@ -166,6 +149,8 @@ public class PlayerController : MonoBehaviour
 				shop.transform.SetParent(gameObject.transform);
 				shopOpen = true;
 			}else{
+				//simply finding an arbitrary G.O. w/ a certain tag could lead to problems
+				//this may be causing Issue#2
 				Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
 				shopOpen = false;
 			}
@@ -189,25 +174,20 @@ public class PlayerController : MonoBehaviour
 		rb.AddForce(new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletForce);
 	}
 		
-	private void CheckHealth()
+	//shouldnt be checked every frame? need a better way of handling health
+	//should only check when someone takes damage
+	//really the handling of the healthbar should be in its own script attached to 
+	private void UpdateHealth()
 	{
+
+		//get rid of coroutine for winscreen. that was only for the presentation
 		if(currentHealth <= 0)
 		{
 			StartCoroutine(WinScreenRoutine(5.0f));
 			currentHealth = maxHealth;
 			opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
-			
-		Slider healthBar;
 
-		if(isP1)
-		{
-			healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
-		}
-		else
-		{
-			healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
-		}
 		healthBar.value = currentHealth;
 	}
 

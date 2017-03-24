@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 695602891}
   - component: {fileID: 695602890}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1091,20 +1091,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isP1: 0
-  aimSpeed: 100
-  maxSpeed: 10
   maxHealth: 50
   currentHealth: 50
-  gun: {fileID: 113345246}
-  fRadius: 2
-  bulletForce: 1500
-  gunPosOffset: {x: -0.8, y: -0.6, z: -0.1}
-  bullet: {fileID: 1630268592429914, guid: f6ea3d0da257347f29ebc53850e16953, type: 2}
+  maxSpeed: 10
+  aimSpeed: 100
   bulletSpawnOffset: -1
   fireRate: 1
+  fRadius: 2
+  bulletForce: 1500
+  bullet: {fileID: 1630268592429914, guid: f6ea3d0da257347f29ebc53850e16953, type: 2}
   opponent: {fileID: 1752082710}
   shopPrefab: {fileID: 1092022349248104, guid: c856e9e6f0a674317a3399847c48384a, type: 2}
   canvas: {fileID: 695602892}
+  gun: {fileID: 113345246}
+  gunPosOffset: {x: -0.8, y: -0.6, z: -0.1}
 --- !u!50 &983468021
 Rigidbody2D:
   serializedVersion: 4
@@ -1961,20 +1961,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isP1: 1
-  aimSpeed: 100
-  maxSpeed: 10
   maxHealth: 50
   currentHealth: 50
-  gun: {fileID: 721313302}
-  fRadius: 2
-  bulletForce: 1500
-  gunPosOffset: {x: 0.8, y: -0.6, z: -0.1}
-  bullet: {fileID: 1988185841711468, guid: 9b89454c1719f4379badc7040a314d6b, type: 2}
+  maxSpeed: 10
+  aimSpeed: 100
   bulletSpawnOffset: -1
   fireRate: 1
+  fRadius: 2
+  bulletForce: 1500
+  bullet: {fileID: 1988185841711468, guid: 9b89454c1719f4379badc7040a314d6b, type: 2}
   opponent: {fileID: 983468018}
   shopPrefab: {fileID: 1092022349248104, guid: c856e9e6f0a674317a3399847c48384a, type: 2}
   canvas: {fileID: 695602892}
+  gun: {fileID: 721313302}
+  gunPosOffset: {x: 0.8, y: -0.6, z: -0.1}
 --- !u!111 &1752082716
 Animation:
   m_ObjectHideFlags: 0
