@@ -58,12 +58,18 @@ public class PlayerController : MonoBehaviour
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
 
+		// insantiate shop at fixed position above player
+		shopPrefab = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
+		shopPrefab.transform.SetParent(gameObject.transform);
+		shopPrefab.SetActive (false);
+
 		//later, when more characters are added, we will have to map unique bullet prefabs if characters
 		//will have different shot types.
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		UpdateHealth();
 		HandleInput();
 	}
@@ -141,19 +147,24 @@ public class PlayerController : MonoBehaviour
 		}
 
 
-		if(shopKey)
+		/*if(shopKey)
 		{
 			if(!shopOpen)
 			{
-				GameObject shop = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
-				shop.transform.SetParent(gameObject.transform);
+				shopPrefab = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
+				shopPrefab.transform.SetParent(gameObject.transform);
 				shopOpen = true;
 			}else{
 				//simply finding an arbitrary G.O. w/ a certain tag could lead to problems
 				//this may be causing Issue#2
-				Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
+				//Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
+				Destroy(shopPrefab);
 				shopOpen = false;
 			}
+		}*/
+		if (shopKey) 
+		{
+			shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
 		}
 	}
 
