@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
 			// position & rotation of the cursor on fRadius
 			gunPos = Quaternion.AngleAxis(angle, transform.forward) * (transform.right * fRadius);
-			gun.rotation = Quaternion.AngleAxis(angle, transform.forward);
+			gun.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
 			// apply the cursor's new position with an added offset for minor tweaking
 			gun.position = transform.position + gunPos + gunPosOffset;
 		}
