@@ -43,30 +43,19 @@ public class PlayerController : MonoBehaviour
 
 		isDead = false;
 		currentHealth = maxHealth;
+		angle = 0.0f;
+		minAngle = 0.0f;
 		aimRange = 60.0f;
-
-		//instead of handling 2 different ranges, maybe have one range and just rotate P2 180deg along y-axis
-		//i.e.
-		//<set range here relative to position the player is facing>
-		//if(!isP1){ transform.rotation = transform.Rotate(0, 180, 0, Space.Self);
-		if(isP1)
-		{
-			angle = 0.0f;
-			gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
-			// range: [0,60]
-			minAngle = 0.0f;
-			//healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
-		}
-		else
-		{
-			angle = 180.0f;
-			gunPos = new Vector3 (-fRadius, 0.0f, 0.0f);
-			// range: [120,180]
-			minAngle = 120.0f;
-			//healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
-		}
+		gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
 		gun.position = transform.position + gunPos + gunPosOffset;
 
+		//this goes in Instantiate 
+		if(!isP1)
+		{
+			transform.Rotate(0, 180, 0, Space.Self);
+			gunPosOffset.x *= -1;
+		}
+			
 		// insantiate shop at fixed position above player
 		shopPrefab = Instantiate(shopPrefab, transform.position + Vector3.up * 5, Quaternion.identity);
 		shopPrefab.transform.SetParent(transform);
@@ -83,6 +72,9 @@ public class PlayerController : MonoBehaviour
 		this.isP1 = isP1;
 		this.playerUI = playerUI;
 		this.spawnPoint = spawnPoint;
+
+		//if(!isP1){ transform.Rotate(0, 180, 0, Space.Self); gunPosOffset.x *= -1; }
+		//should be here?
 	}
 
 	private void InitializeHurtbox()
@@ -99,8 +91,9 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		UpdateHealth();
-		HandleInput();
+		//UpdateHealth();
+		if(!isDead)
+			HandleInput();
 	}
 
 	private void HandleInput()
@@ -134,63 +127,44 @@ public class PlayerController : MonoBehaviour
 		if(moveLeft) 		_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
 		else if(moveRight) 	_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
 
+
 		// handle aiming 
+	
+		//store angle to check if it has changed
+		float oldAngle = angle;
+
+		//adjust angle based on input
 		if (aimUp) 
-		{
-			// counterclockwise
-			if (isP1) angle += aimSpeed * Time.deltaTime;
-			// clockwise
-			else angle -= aimSpeed * Time.deltaTime;
-
-			// constrain to aiming range
-			if (angle < minAngle) angle = minAngle;
-			else if (angle > minAngle + aimRange) angle = minAngle + aimRange;
-		}
+			angle += aimSpeed * Time.deltaTime;
 		else if(aimDown)
+			angle -= aimSpeed * Time.deltaTime;
+
+		// constrain to aiming range & change position/rotation if angle has changed
+		if (oldAngle != angle) 
 		{
-			// clockwise
-			if (isP1) angle -= aimSpeed * Time.deltaTime;
-			// counterclockwise
-			else angle += aimSpeed * Time.deltaTime;
+			if (angle < minAngle)
+				angle = minAngle;
+			else if (angle > minAngle + aimRange)
+				angle = minAngle + aimRange;
 
-			// constrain to aiming range
-			if (angle < minAngle) angle = minAngle;
-			else if (angle > minAngle + aimRange) angle = minAngle + aimRange;
+			// position & rotation of the cursor on fRadius
+			gunPos = Quaternion.AngleAxis(angle, transform.forward) * (transform.right * fRadius);
+			gun.rotation = Quaternion.AngleAxis(angle, transform.forward);
+			// apply the cursor's new position with an added offset for minor tweaking
+			gun.position = transform.position + gunPos + gunPosOffset;
 		}
-
-		// position & rotation of the cursor on fRadius
-		gunPos = Quaternion.AngleAxis(angle, Vector3.forward) * (Vector3.right * fRadius);
-		gun.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-		// apply the cursor's new position with an added offset for minor tweaking
-		gun.position = transform.position + gunPos + gunPosOffset;
 
 		// charge shots?
 		// if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
 
-		//fire handling
+		// fire handling
 		if(fireKey && canFire)
 		{
 			FireBullet (); //damage should depend on shot type
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
 		}
-
-
-		/*if(shopKey)
-		{
-			if(!shopOpen)
-			{
-				shopPrefab = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
-				shopPrefab.transform.SetParent(gameObject.transform);
-				shopOpen = true;
-			}else{
-				//simply finding an arbitrary G.O. w/ a certain tag could lead to problems
-				//this may be causing Issue#2
-				//Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
-				Destroy(shopPrefab);
-				shopOpen = false;
-			}
-		}*/
+			
 		if (shopKey) 
 		{
 			shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
@@ -214,33 +188,31 @@ public class PlayerController : MonoBehaviour
 		//curBullet.GetComponent<Bullet> ().Initialize (direction, this);
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
 	}
-		
-	//shouldnt be checked every frame? need a better way of handling health
+
 	//should only check when someone takes damage
-	//really the handling of the healthbar should be in its own script attached to 
 	private void UpdateHealth()
 	{
-		//get rid of coroutine for winscreen. that was only for the presentation
 		if(currentHealth <= 0)
 		{
 			Debug.Log ("DEAD");
-			currentHealth = maxHealth;
+			isDead = true;
+			//currentHealth = maxHealth;
 			//opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
 
 		healthBar.value = currentHealth;
 	}
 
-	/*public void TakeDmg(int dmg)
+	public void TakeDmg(int dmg)
 	{
 		currentHealth -= dmg;
-		healthBar.value = currentHealth;
-	}*/
+		UpdateHealth ();
+	}
 
-	public void UpdateHealthBar()
+	/*public void UpdateHealthBar()
 	{
 		playerUI.UpdateHealthBar(currentHealth, maxHealth);
-	}
+	}*/
 
 	public void OnHitboxTriggerEnter(Collider2D collision)
 	{

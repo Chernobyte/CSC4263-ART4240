@@ -10,7 +10,7 @@ public class CharSelectOverlord : MonoBehaviour {
     public Text startText;
 
     private const int maxNumPlayers = 4;
-    private CharSelectInfoPanel[] infoPanels;
+    /*private CharSelectInfoPanel[] infoPanels;
     private List<PlayerSelection> playerSelections = new List<PlayerSelection>();
     private CharacterIconData[] charSelectOptions;
     private bool canStartGame = false;
@@ -94,5 +94,5 @@ public class CharSelectOverlord : MonoBehaviour {
         {
             SceneManager.LoadScene("Game");
         }
-    }
+    }*/
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Overlord : MonoBehaviour {
+public class Overlord2 : MonoBehaviour {
 
-    public CharacterIconData debugPlayerData;
-    public CharacterIconData debugDummyData;
+    //public CharacterIconData debugPlayerData;
+    //public CharacterIconData debugDummyData;
 
-    private List<PlayerSelection> playerSelections;
-    private SpawnPoint[] spawnPoints;
+    //private List<PlayerSelection> playerSelections;
+    //private SpawnPoint[] spawnPoints;
     private List<Player> players = new List<Player>();
     private PlayerUI[] playerUIs;
     private bool playersCached = false;
@@ -17,7 +17,7 @@ public class Overlord : MonoBehaviour {
 
 	void Start ()
     {
-        Init();
+        //Init();
 	}
 	
 	void Update()
@@ -25,7 +25,7 @@ public class Overlord : MonoBehaviour {
 		
 	}
 
-    private void Init()
+    /*private void Init()
     {
         var charSelectOverlord = FindObjectOfType<CharSelectOverlord>();
 
@@ -83,5 +83,5 @@ public class Overlord : MonoBehaviour {
             // UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();
         }
-    }
+    }*/
 }

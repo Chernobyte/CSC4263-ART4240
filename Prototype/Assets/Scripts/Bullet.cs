@@ -100,7 +100,7 @@ public class Bullet : MonoBehaviour {
 
                 player.TakeHit(trueKnockbackDirection * knockbackStrength, damage, stunTime);
                 Destroy(gameObject);*/
-				player.currentHealth -= damage;
+				player.TakeDmg (damage);
             }
         }
     }
