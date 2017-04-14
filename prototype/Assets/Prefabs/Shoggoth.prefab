@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 61531717008452762}
   - component: {fileID: 50103383288847260}
   - component: {fileID: 114106696153927094}
+  - component: {fileID: 114511576438600484}
   m_Layer: 0
   m_Name: Shoggoth
   m_TagString: Untagged
@@ -267,6 +268,18 @@ MonoBehaviour:
   gun: {fileID: 4782796647586824}
   gunPosOffset: {x: 0.8, y: -0.6, z: -0.1}
   healthBar: {fileID: 0}
+--- !u!114 &114511576438600484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1697788892134588}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f6b560850cd4a35bc866f45dbc6678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenPos: {x: 0, y: 0, z: 0}
 --- !u!212 &212365242464129332
 SpriteRenderer:
   m_ObjectHideFlags: 1

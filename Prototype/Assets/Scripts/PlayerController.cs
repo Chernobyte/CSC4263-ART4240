@@ -28,16 +28,23 @@ public class PlayerController : MonoBehaviour
 
 	private Overlord overlord;
 	private Vector3 gunPos;
+	private Vector3 charSize;
 	private Rigidbody2D _rb;
 	private BoxCollider2D _col;
 	private PlayerUI playerUI; //use this instead of slider
 	private Transform spawnPoint;
+	private ShopHandler shop;
 
 	// Use this for initialization
 	void Start () 
 	{
+		/*foreach(SpriteRenderer sr in gameObject.GetComponentsInChildren<SpriteRenderer> ()){
+			Debug.Log (sr.name + " : " + sr.bounds.size);
+		}*/
+
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
+		shop = gameObject.GetComponent<ShopHandler>();
 
 		InitializeHurtbox ();
 
@@ -167,7 +174,9 @@ public class PlayerController : MonoBehaviour
 			
 		if (shopKey) 
 		{
-			shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
+			shopOpen = !shopOpen;
+			shop.enabled = !shop.enabled;
+			//shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
 		}
 	}
 
