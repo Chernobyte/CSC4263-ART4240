@@ -11,9 +11,8 @@ public class PlayerController : MonoBehaviour
 	public float maxSpeed = 10.0f;
 	public float aimSpeed = 100.0f;
 	public float bulletSpawnOffset = 1.2f;
-	public float fireRate = 1.0f;
 	public float fRadius = 1.0f;
-	//public float bulletForce = 5.0f;
+	public int currentCurrency;
 
 	//public GameObject bullet, shopPrefab;
 	public Transform gun;
@@ -58,20 +57,16 @@ public class PlayerController : MonoBehaviour
 		angle = 0.0f;
 		minAngle = 0.0f;
 		aimRange = 60.0f;
+		currentCurrency = 0;
 		gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
 		gun.position = transform.position + gunPos + gunPosOffset;
 
-		//this goes in Instantiate 
+		//this goes in Instantiate? 
 		if(!isP1)
 		{
 			transform.Rotate(0, 180, 0, Space.Self);
 			gunPosOffset.x *= -1;
 		}
-			
-		// insantiate shop at fixed position above player
-		/*shopPrefab = Instantiate(shopPrefab, transform.position + Vector3.up * 5, Quaternion.identity);
-		shopPrefab.transform.SetParent(transform);
-		shopPrefab.SetActive (false);*/
 	}
 
 	//used in "overlord" to spawn characters after being selected
@@ -88,11 +83,6 @@ public class PlayerController : MonoBehaviour
 
 	private void InitializeHurtbox()
 	{
-		/*var hurtboxes = GetComponentsInChildren<HitboxCallback> ();
-		foreach (var hurtbox in hurtboxes) 
-		{
-			hurtbox.Init (OnHitboxTriggerEnter, OnHitboxTriggerExit, this);
-		}*/
 		HitboxCallback hurtbox = GetComponentInChildren<HitboxCallback> ();
 		hurtbox.Init (OnHitboxTriggerEnter, OnHitboxTriggerExit, this);
 	}
@@ -101,8 +91,11 @@ public class PlayerController : MonoBehaviour
 	void Update () 
 	{
 		//UpdateHealth();
-		if(!isDead)
-			HandleInput();
+		if (!isDead) 
+		{
+			HandleInput ();
+			//AccumulateCurrency ();
+		}
 	}
 
 	private void HandleInput()
@@ -166,7 +159,7 @@ public class PlayerController : MonoBehaviour
 		// fire handling
 		if(fireKey && canFire && !shopOpen)
 		{
-			FireBullet (); //damage should depend on shot type
+			FireBullet ();
 			canFire = false;
 			//StartCoroutine (FireRoutine (fireRate));
 			StartCoroutine (FireRoutine (weapons[currentWeapon].fireRate));
@@ -176,7 +169,6 @@ public class PlayerController : MonoBehaviour
 		{
 			shopOpen = !shopOpen;
 			shop.enabled = !shop.enabled;
-			//shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
 		}
 	}
 
@@ -190,12 +182,8 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
 
-		//GameObject curBullet = Instantiate (bullet, bulletPos, gun.transform.rotation);
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
 
-		//Vector2 direction = new Vector2 (bulletPos.x, bulletPos.y);
-
-		//curBullet.GetComponent<Bullet> ().Initialize (direction, this);
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
 	}
 
@@ -217,6 +205,11 @@ public class PlayerController : MonoBehaviour
 	{
 		currentHealth -= dmg;
 		UpdateHealth ();
+	}
+
+	private void AccumulateCurrency()
+	{
+
 	}
 
 	/*public void UpdateHealthBar()
