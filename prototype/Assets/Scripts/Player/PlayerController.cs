@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 	public float fRadius = 1.0f;
 	//public float bulletForce = 5.0f;
 
-	public GameObject bullet, shopPrefab;
+	//public GameObject bullet, shopPrefab;
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour
 	private Transform spawnPoint;
 	private ShopHandler shop;
 
+	//testing for shop
+	public ShopItem[] weapons;
+	public int currentWeapon;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
 		isDead = false;
 		currentHealth = maxHealth;
+		currentWeapon = 0;
 		angle = 0.0f;
 		minAngle = 0.0f;
 		aimRange = 60.0f;
@@ -64,12 +69,9 @@ public class PlayerController : MonoBehaviour
 		}
 			
 		// insantiate shop at fixed position above player
-		shopPrefab = Instantiate(shopPrefab, transform.position + Vector3.up * 5, Quaternion.identity);
+		/*shopPrefab = Instantiate(shopPrefab, transform.position + Vector3.up * 5, Quaternion.identity);
 		shopPrefab.transform.SetParent(transform);
-		shopPrefab.SetActive (false);
-
-		//later, when more characters are added, we will have to map unique bullet prefabs if characters
-		//will have different shot types.
+		shopPrefab.SetActive (false);*/
 	}
 
 	//used in "overlord" to spawn characters after being selected
@@ -161,15 +163,13 @@ public class PlayerController : MonoBehaviour
 			gun.position = transform.position + gunPos + gunPosOffset;
 		}
 
-		// charge shots?
-		// if(Input.GetKeyUp(KeyCode.F)) shotCharge = 0;
-
 		// fire handling
-		if(fireKey && canFire)
+		if(fireKey && canFire && !shopOpen)
 		{
 			FireBullet (); //damage should depend on shot type
 			canFire = false;
-			StartCoroutine (FireRoutine (fireRate));
+			//StartCoroutine (FireRoutine (fireRate));
+			StartCoroutine (FireRoutine (weapons[currentWeapon].fireRate));
 		}
 			
 		if (shopKey) 
@@ -190,7 +190,8 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
 
-		GameObject curBullet = Instantiate (bullet, bulletPos, gun.transform.rotation);
+		//GameObject curBullet = Instantiate (bullet, bulletPos, gun.transform.rotation);
+		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
 
 		//Vector2 direction = new Vector2 (bulletPos.x, bulletPos.y);
 

@@ -33,9 +33,19 @@ public class ShopHandler : MonoBehaviour {
 			screenPos.y - charSize.y * 1.5f - 20f, 
 			charSize.x, 
 			charSize.y);
-		//Rect labelRect = new Rect (screenPos.x, screenPos.y - 10, Screen.width / 10, 40);
 
 		//GUI.Label(labelRect, "Health");
 		GUI.Box (shopRect, "SHOP");
+
+		/*GameObject[] shopItems;
+		foreach (GameObject item in shopItems) 
+		{
+
+		}*/
+	}
+
+	void HandleInput()
+	{
+
 	}
 }

@@ -263,11 +263,12 @@ MonoBehaviour:
   bulletSpawnOffset: -1
   fireRate: 1
   fRadius: 2
-  bullet: {fileID: 1988185841711468, guid: 9b89454c1719f4379badc7040a314d6b, type: 2}
-  shopPrefab: {fileID: 1092022349248104, guid: c856e9e6f0a674317a3399847c48384a, type: 2}
   gun: {fileID: 4782796647586824}
   gunPosOffset: {x: 0.8, y: -0.6, z: -0.1}
   healthBar: {fileID: 0}
+  weapons:
+  - {fileID: 11400000, guid: fd7ab5a2077a0724c9673d814f4ef160, type: 2}
+  currentWeapon: 0
 --- !u!114 &114511576438600484
 MonoBehaviour:
   m_ObjectHideFlags: 1

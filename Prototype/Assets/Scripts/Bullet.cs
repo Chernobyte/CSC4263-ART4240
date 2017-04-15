@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
     public float lifespan = 5.0f;
     public GameObject hurtboxTriggerObject;
 
-    //private int numBouncesRemaining = 0;
+	private bool isFired;
     private float spawnTime;
     private Vector2 oldVelocity;
     private Rigidbody2D _rigidBody;
@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour {
     {
         spawnTime = Time.time;
         _rigidBody = GetComponent<Rigidbody2D>();
-		_rigidBody.AddForce(new Vector2(transform.right.x, transform.right.y) * bulletForce);//.velocity = fireDirection * bulletSpeed;
+		isFired = false;
 
         var hurtboxTrigger = hurtboxTriggerObject.GetComponent<TriggerCallback>();
         hurtboxTrigger.Init(OnHurtboxTriggerEnter2D, OnHurtboxTriggerExit2D, null);
@@ -34,6 +34,12 @@ public class Bullet : MonoBehaviour {
 
 	private void Update()
     {
+		if (!isFired) 
+		{
+			_rigidBody.AddForce (new Vector2 (transform.right.x, transform.right.y) * bulletForce);
+			isFired = true;
+		}
+		
         if (Time.time - spawnTime > lifespan)
         {
             Destroy(gameObject);
@@ -44,18 +50,11 @@ public class Bullet : MonoBehaviour {
             gameObject.GetComponent<SpriteRenderer>().sprite = bulletImg1;*/
     }
 
-    /*private void FixedUpdate()
-    {
-        oldVelocity = _rigidBody.velocity;
-    }*/
-
     /*public void Initialize(Vector2 direction, PlayerController player)
     {
         parentPlayer = player;
 
         fireDirection = direction.normalized;
-
-		_rigidBody.AddForce(fireDirection * bulletForce);
     }*/
 
 	public void GetFiringPlayer(PlayerController player) 
