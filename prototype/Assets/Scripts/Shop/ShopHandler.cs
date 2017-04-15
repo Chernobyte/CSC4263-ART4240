@@ -87,7 +87,26 @@ public class ShopHandler : MonoBehaviour {
 
 		GUI.Box (shopRect, "");
 
-		if (itemList.Count > 0) 
+		if (itemList.Count == 1) 
+		{
+			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y * 2 - 5f, shopRect.width - 10f, shopRect.height / 3 + 10f));
+
+			GUILayout.Space (10f);
+
+			GUILayout.BeginHorizontal ();
+
+			GUILayout.Button (itemList [0]);
+			GUILayout.Space (5f);
+			GUILayout.Button ("Cost 1");
+
+			GUILayout.EndHorizontal ();
+
+			//GUILayout.Space (5f);
+			GUILayout.Button ("desc 1");
+			GUILayout.Space (10f);
+			GUILayout.EndArea ();
+		}
+		else if (itemList.Count > 0) 
 		{
 			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y - 5f, shopRect.width - 10f, shopRect.height + 10f));
 			GUILayout.BeginVertical ();
@@ -195,7 +214,7 @@ public class ShopHandler : MonoBehaviour {
 			}
 		} 
 		//remove item if purchased
-		else if (confirm) 
+		else if (itemList.Count > 0 && confirm) 
 		{
 			itemList.RemoveAt (0);
 		}
