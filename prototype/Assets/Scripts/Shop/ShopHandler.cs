@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class ShopHandler : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class ShopHandler : MonoBehaviour {
 	private Vector3 charSize;
 	private SpriteRenderer sr;
 	private List<string> itemList = new List<string>();
+	//private List<ShopItem> itemList = new List<ShopItem>();
 	private PlayerController pc;
 
 	// Use this for initialization
@@ -18,6 +20,12 @@ public class ShopHandler : MonoBehaviour {
 		itemList.Add("name 1");
 		itemList.Add("name 2");
 		itemList.Add("name 3");
+
+		Object[] si = AssetDatabase.LoadAllAssetsAtPath ("Assets/ShopItems");
+		foreach (Object item in si) 
+		{
+			Debug.Log (item.name); //why is there nothing?
+		}
 	}
 	
 	// Update is called once per frame

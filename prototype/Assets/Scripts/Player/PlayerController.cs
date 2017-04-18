@@ -183,7 +183,6 @@ public class PlayerController : MonoBehaviour
 		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
 
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
-
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
 	}
 
@@ -204,7 +203,10 @@ public class PlayerController : MonoBehaviour
 	public void TakeDmg(int dmg)
 	{
 		currentHealth -= dmg;
+		//audio: hurt
 		UpdateHealth ();
+		//add currency
+
 	}
 
 	private void AccumulateCurrency()

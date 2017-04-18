@@ -19,9 +19,6 @@ public class Bullet : MonoBehaviour {
     private PlayerController parentPlayer;
     private Vector2 fireDirection;
 
-    //public Sprite bulletImg1;
-    //public Sprite bulletImg2;
-
 	private void Start()
     {
         spawnTime = Time.time;
@@ -44,10 +41,6 @@ public class Bullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        /*if (Time.time / 1 == 0)
-            gameObject.GetComponent<SpriteRenderer>().sprite = bulletImg2;
-        if (Time.time /.5 == 0)
-            gameObject.GetComponent<SpriteRenderer>().sprite = bulletImg1;*/
     }
 
     /*public void Initialize(Vector2 direction, PlayerController player)
@@ -57,6 +50,7 @@ public class Bullet : MonoBehaviour {
         fireDirection = direction.normalized;
     }*/
 
+	//replace with Initialize that also gets other 
 	public void GetFiringPlayer(PlayerController player) 
 	{
 		parentPlayer = player;
@@ -65,11 +59,12 @@ public class Bullet : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
 		//var contact = collision.contacts;
-		//Destroy (gameObject);
 		PlayerController hitPlayer = collision.gameObject.GetComponent<PlayerController>();
 		if (hitPlayer != parentPlayer)
 			Destroy (gameObject);
 		//Destroy (gameObject);
+
+		//add audio here
 
 		//destroy terrain??? That ain't my job
     }
@@ -100,6 +95,7 @@ public class Bullet : MonoBehaviour {
                 player.TakeHit(trueKnockbackDirection * knockbackStrength, damage, stunTime);
                 Destroy(gameObject);*/
 				player.TakeDmg (damage);
+				//playerPlayer.AddCurrency
             }
         }
     }
