@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
-	public bool isP1, isDead;
+	public bool isP1;
 	public int maxHealth = 100;
 	public int currentHealth;
 	public float maxSpeed = 10.0f;
@@ -13,12 +13,12 @@ public class PlayerController : MonoBehaviour
 	public float bulletSpawnOffset = 1.2f;
 	public float fireRate = 1.0f;
 	public float fRadius = 1.0f;
-	//public float bulletForce = 5.0f;
+	public float bulletForce = 5.0f;
 
-	public GameObject bullet, shopPrefab;
+	public GameObject bullet, opponent, shopPrefab;
+	public Canvas canvas;
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
-	public Slider healthBar;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -26,12 +26,10 @@ public class PlayerController : MonoBehaviour
 	private float angle, aimRange, minAngle; //maxAngle = minAngle + aimRange
 	private float currentSpeed = 0.0f;
 
-	private Overlord overlord;
 	private Vector3 gunPos;
 	private Rigidbody2D _rb;
 	private BoxCollider2D _col;
-	private PlayerUI playerUI; //use this instead of slider
-	private Transform spawnPoint;
+	private Slider healthBar;
 
 	// Use this for initialization
 	void Start () 
@@ -39,23 +37,16 @@ public class PlayerController : MonoBehaviour
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
 
-		InitializeHurtbox ();
-
-		isDead = false;
 		currentHealth = maxHealth;
 		aimRange = 60.0f;
 
-		//instead of handling 2 different ranges, maybe have one range and just rotate P2 180deg along y-axis
-		//i.e.
-		//<set range here relative to position the player is facing>
-		//if(!isP1){ transform.rotation = transform.Rotate(0, 180, 0, Space.Self);
 		if(isP1)
 		{
 			angle = 0.0f;
 			gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
 			// range: [0,60]
 			minAngle = 0.0f;
-			//healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
+			healthBar = GameObject.Find("P1 Healthbar").GetComponent<Slider>();
 		}
 		else
 		{
@@ -63,42 +54,16 @@ public class PlayerController : MonoBehaviour
 			gunPos = new Vector3 (-fRadius, 0.0f, 0.0f);
 			// range: [120,180]
 			minAngle = 120.0f;
-			//healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
+			healthBar = GameObject.Find("P2 Healthbar").GetComponent<Slider>();
 		}
 		gun.position = transform.position + gunPos + gunPosOffset;
-
-		// insantiate shop at fixed position above player
-		shopPrefab = Instantiate(shopPrefab, transform.position + Vector3.up * 5, Quaternion.identity);
-		shopPrefab.transform.SetParent(transform);
-		shopPrefab.SetActive (false);
 
 		//later, when more characters are added, we will have to map unique bullet prefabs if characters
 		//will have different shot types.
 	}
-
-	//used in "overlord" to spawn characters after being selected
-	public void Init(Overlord overlord, bool isP1, PlayerUI playerUI, Transform spawnPoint)
-	{
-		this.overlord = overlord;
-		this.isP1 = isP1;
-		this.playerUI = playerUI;
-		this.spawnPoint = spawnPoint;
-	}
-
-	private void InitializeHurtbox()
-	{
-		/*var hurtboxes = GetComponentsInChildren<HitboxCallback> ();
-		foreach (var hurtbox in hurtboxes) 
-		{
-			hurtbox.Init (OnHitboxTriggerEnter, OnHitboxTriggerExit, this);
-		}*/
-		HitboxCallback hurtbox = GetComponentInChildren<HitboxCallback> ();
-		hurtbox.Init (OnHitboxTriggerEnter, OnHitboxTriggerExit, this);
-	}
 	
 	// Update is called once per frame
-	void Update () 
-	{
+	void Update () {
 		UpdateHealth();
 		HandleInput();
 	}
@@ -139,8 +104,6 @@ public class PlayerController : MonoBehaviour
 		{
 			// counterclockwise
 			if (isP1) angle += aimSpeed * Time.deltaTime;
-			// clockwise
-			else angle -= aimSpeed * Time.deltaTime;
 
 			// constrain to aiming range
 			if (angle < minAngle) angle = minAngle;
@@ -170,30 +133,25 @@ public class PlayerController : MonoBehaviour
 		//fire handling
 		if(fireKey && canFire)
 		{
-			FireBullet (); //damage should depend on shot type
+			FireWeapon (10); //damage should depend on shot type
 			canFire = false;
 			StartCoroutine (FireRoutine (fireRate));
 		}
 
 
-		/*if(shopKey)
+		if(shopKey)
 		{
 			if(!shopOpen)
 			{
-				shopPrefab = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
-				shopPrefab.transform.SetParent(gameObject.transform);
+				GameObject shop = Instantiate(shopPrefab, gameObject.transform.position + Vector3.up * 5, Quaternion.identity);
+				shop.transform.SetParent(gameObject.transform);
 				shopOpen = true;
 			}else{
 				//simply finding an arbitrary G.O. w/ a certain tag could lead to problems
 				//this may be causing Issue#2
-				//Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
-				Destroy(shopPrefab);
+				Destroy(GameObject.FindGameObjectWithTag("EditorOnly"));
 				shopOpen = false;
 			}
-		}*/
-		if (shopKey) 
-		{
-			shopPrefab.SetActive (!shopPrefab.activeInHierarchy);
 		}
 	}
 
@@ -203,16 +161,15 @@ public class PlayerController : MonoBehaviour
 		canFire = true;
 	}
 
-	private void FireBullet()
+	private void FireWeapon(int damage)
 	{
-		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
-
-		GameObject curBullet = Instantiate (bullet, bulletPos, gun.transform.rotation);
-
-		//Vector2 direction = new Vector2 (bulletPos.x, bulletPos.y);
-
-		//curBullet.GetComponent<Bullet> ().Initialize (direction, this);
-		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
+		GameObject curBullet = Instantiate (bullet, 
+			gun.transform.position + (gun.transform.right * bulletSpawnOffset), 
+			gun.transform.rotation);
+		//curBullet = damage;
+		//curBullet.GetComponent<Bullet>().
+		Rigidbody2D rb = curBullet.GetComponent<Rigidbody2D> ();
+		rb.AddForce(new Vector2(gun.transform.right.x, gun.transform.right.y) * bulletForce);
 	}
 		
 	//shouldnt be checked every frame? need a better way of handling health
@@ -220,35 +177,33 @@ public class PlayerController : MonoBehaviour
 	//really the handling of the healthbar should be in its own script attached to 
 	private void UpdateHealth()
 	{
+
 		//get rid of coroutine for winscreen. that was only for the presentation
 		if(currentHealth <= 0)
 		{
-			Debug.Log ("DEAD");
+			StartCoroutine(WinScreenRoutine(5.0f));
 			currentHealth = maxHealth;
-			//opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
+			opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
 
 		healthBar.value = currentHealth;
 	}
 
-	/*public void TakeDmg(int dmg)
+	IEnumerator WinScreenRoutine(float duration)
 	{
-		currentHealth -= dmg;
-		healthBar.value = currentHealth;
-	}*/
-
-	public void UpdateHealthBar()
-	{
-		playerUI.UpdateHealthBar(currentHealth, maxHealth);
-	}
-
-	public void OnHitboxTriggerEnter(Collider2D collision)
-	{
-
-	}
-
-	public void OnHitboxTriggerExit(Collider2D collision)
-	{
-
+		//print winscreen message
+		//healthBar.GetComponent<Slider>().Value = currentHealth;
+		Text txt = canvas.GetComponentInChildren<Text>();
+		txt.enabled = true;
+		if(isP1)
+		{
+			txt.text = "Player 2 Wins";
+		}
+		else
+		{
+			txt.text = "Player 1 Wins";
+		}
+		yield return new WaitForSeconds(duration);
+		txt.enabled = false;
 	}
 }
