@@ -1,0 +1,5 @@
+slither - slither.mp3
+portal - portal.mp3
+laser shooting sound - laser_sounds directory
+bullet hitting sound - blast.mp3
+shoggoth getting hit sound - monster_grunts.mp3
