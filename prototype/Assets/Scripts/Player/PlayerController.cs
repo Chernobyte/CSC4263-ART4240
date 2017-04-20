@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
+	public Transform win;
+	public Text WhoWins;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -96,6 +98,7 @@ public class PlayerController : MonoBehaviour
 			HandleInput ();
 			//AccumulateCurrency ();
 		}
+
 	}
 
 	private void HandleInput()
@@ -159,10 +162,12 @@ public class PlayerController : MonoBehaviour
 		// fire handling
 		if(fireKey && canFire && !shopOpen)
 		{
-			FireBullet ();
-			canFire = false;
-			//StartCoroutine (FireRoutine (fireRate));
-			StartCoroutine (FireRoutine (weapons[currentWeapon].fireRate));
+			
+				FireBullet ();
+				canFire = false;
+				//StartCoroutine (FireRoutine (fireRate));
+				StartCoroutine (FireRoutine (weapons [currentWeapon].fireRate));
+
 		}
 			
 		if (shopKey) 
@@ -186,6 +191,13 @@ public class PlayerController : MonoBehaviour
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
 	}
 
+	private void FireBullet1(){
+		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
+
+		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
+		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
+	}
+
 	//should only check when someone takes damage
 	private void UpdateHealth()
 	{
@@ -193,6 +205,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Debug.Log ("DEAD");
 			isDead = true;
+			Winscreen ();
 			//currentHealth = maxHealth;
 			//opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
@@ -205,19 +218,25 @@ public class PlayerController : MonoBehaviour
 		currentHealth -= dmg;
 		//audio: hurt
 		UpdateHealth ();
-		//add currency
+		AccumulateCurrency ();
 
 	}
 
 	private void AccumulateCurrency()
 	{
-
+		if(isP1){
+			currentCurrency += 10;
+		
+		}
+		if (!isP1) {
+			currentCurrency += 10;
+		}
 	}
 
 	/*public void UpdateHealthBar()
 	{
 		playerUI.UpdateHealthBar(currentHealth, maxHealth);
-	}*/
+	}*/ 
 
 	public void OnHitboxTriggerEnter(Collider2D collision)
 	{
@@ -228,4 +247,25 @@ public class PlayerController : MonoBehaviour
 	{
 
 	}
+
+	public void Winscreen(){
+
+		if(isP1 && isDead && win.gameObject.activeInHierarchy==false){
+			
+			win.gameObject.SetActive (true);
+			Time.timeScale = 0;
+			WhoWins.text = "Player 2 Wins";
+
+
+		}
+		if(!isP1 && isDead && win.gameObject.activeInHierarchy==false){
+			win.gameObject.SetActive (true);
+			Time.timeScale = 0;
+			WhoWins.text = "Player 1 Wins";
+		}
+
+	}
+
+
 }
+

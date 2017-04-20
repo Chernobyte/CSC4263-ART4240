@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CurrencyAccumulator : MonoBehaviour {
 
-	// Use this for initialization
+	private PlayerController pc;
 	void Start () {
-		
+		pc = gameObject.GetComponent<PlayerController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+
 	}
 }
