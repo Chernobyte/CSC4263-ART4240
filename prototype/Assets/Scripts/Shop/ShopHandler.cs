@@ -17,9 +17,9 @@ public class ShopHandler : MonoBehaviour {
 	void Start () {
 		sr = gameObject.GetComponentsInChildren<SpriteRenderer> () [1];
 		pc = gameObject.GetComponent<PlayerController> ();
-		itemList.Add("name 1");
-		itemList.Add("name 2");
-		itemList.Add("name 3");
+		itemList.Add("Machine Gun");
+		itemList.Add("Grenade Launcher");
+		itemList.Add("HS Missle");
 
 		Object[] si = AssetDatabase.LoadAllAssetsAtPath ("Assets/ShopItems");
 		foreach (Object item in si) 
@@ -93,25 +93,26 @@ public class ShopHandler : MonoBehaviour {
 									charSize.x * 1.5f, 
 									charSize.y * 1.4f);
 
-		GUI.Box (shopRect, "");
+		GUI.Box (shopRect, "Shop");
 
 		if (itemList.Count == 1) 
 		{
 			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y * 2 - 5f, shopRect.width - 10f, shopRect.height / 3 + 10f));
 
-			GUILayout.Space (10f);
+			GUILayout.Space (20f);
 
 			GUILayout.BeginHorizontal ();
 
 			GUILayout.Button (itemList [0]);
 			GUILayout.Space (5f);
-			GUILayout.Button ("Cost 1");
+			//GUILayout.Button ("Cost 1");
 
 			GUILayout.EndHorizontal ();
 
 			//GUILayout.Space (5f);
-			GUILayout.Button ("desc 1");
+			//GUILayout.Button ("desc 1");
 			GUILayout.Space (10f);
+			GUILayout.Button ("Cost 1");
 			GUILayout.EndArea ();
 		}
 		else if (itemList.Count > 0) 
@@ -119,18 +120,19 @@ public class ShopHandler : MonoBehaviour {
 			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y - 5f, shopRect.width - 10f, shopRect.height + 10f));
 			GUILayout.BeginVertical ();
 
-			GUILayout.Space (10f);
+			GUILayout.Space (30f);
 
 			GUILayout.BeginHorizontal ();
 
 			GUILayout.Button (itemList [0]);
 			GUILayout.Space (5f);
-			GUILayout.Button ("Cost 1");
+			//GUILayout.Button ("Cost 1");
 
 			GUILayout.EndHorizontal ();
 
-			//GUILayout.Space (5f);
-			GUILayout.Button ("desc 1");
+			GUILayout.Space (5f);
+			//GUILayout.Button ("desc 1");
+			GUILayout.Button ("Cost 1");
 			GUILayout.Space (10f);
 
 			if (itemList.Count > 1) 
@@ -139,12 +141,12 @@ public class ShopHandler : MonoBehaviour {
 
 				GUILayout.Button (itemList [1]);
 				GUILayout.Space (5f);
-				GUILayout.Button ("Cost 2");
+				//GUILayout.Button ("Cost 2");
 
 				GUILayout.EndHorizontal ();
 
 				//GUILayout.Space (5f);
-				GUILayout.Button ("desc 2");
+				//GUILayout.Button ("desc 2");
 				GUILayout.Space (10f);
 		
 
@@ -159,7 +161,7 @@ public class ShopHandler : MonoBehaviour {
 					GUILayout.EndHorizontal ();
 
 					//GUILayout.Space (5f);
-					GUILayout.Button ("desc 3");
+					//GUILayout.Button ("desc 3");
 					GUILayout.Space (10f);
 				}
 			}
@@ -219,6 +221,7 @@ public class ShopHandler : MonoBehaviour {
 			if (confirm) 
 			{
 				itemList.RemoveAt (1);
+
 			}
 		} 
 		//remove item if purchased

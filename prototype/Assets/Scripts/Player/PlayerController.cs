@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
 	public Slider healthBar;
 	public Transform win;
 	public Text WhoWins;
+	public Text PHealth;
+	public Text Currency;
+
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -220,16 +223,25 @@ public class PlayerController : MonoBehaviour
 		UpdateHealth ();
 		AccumulateCurrency ();
 
+		if(isP1){
+			PHealth.text = currentHealth + "/50";
+		}
+		if (!isP1) {
+			PHealth.text = currentHealth + "/50";
+		}
+
 	}
 
 	private void AccumulateCurrency()
 	{
 		if(isP1){
 			currentCurrency += 10;
+			Currency.text = "Currency:" + currentCurrency;
 		
 		}
 		if (!isP1) {
 			currentCurrency += 10;
+			Currency.text = "Currency:" + currentCurrency;
 		}
 	}
 
