@@ -95,7 +95,7 @@ public class Bullet : MonoBehaviour {
                 player.TakeHit(trueKnockbackDirection * knockbackStrength, damage, stunTime);
                 Destroy(gameObject);*/
 				player.TakeDmg (damage);
-				//playerPlayer.AddCurrency
+				parentPlayer.currentCurrency += 5;
             }
         }
     }

@@ -18,10 +18,12 @@ public class PlayerController : MonoBehaviour
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
-	public Transform win;
+	public Transform win; //winning/losing should not be handled in this script
 	public Text WhoWins;
-	public Text PHealth;
-	public Text Currency;
+	public Text Currency; //needs to be moved either next to or under the healthbar
+	//for shop
+	public ShopItem[] weapons;
+	public int currentWeapon;
 
 
 	private bool canFire = true;
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
 	private int shotCharge = 0;
 	private float angle, aimRange, minAngle; //maxAngle = minAngle + aimRange
 	private float currentSpeed = 0.0f;
+	private float lastUpdate;
 
 	private Overlord overlord;
 	private Vector3 gunPos;
@@ -38,10 +41,6 @@ public class PlayerController : MonoBehaviour
 	private PlayerUI playerUI; //use this instead of slider
 	private Transform spawnPoint;
 	private ShopHandler shop;
-
-	//testing for shop
-	public ShopItem[] weapons;
-	public int currentWeapon;
 
 	// Use this for initialization
 	void Start () 
@@ -62,6 +61,7 @@ public class PlayerController : MonoBehaviour
 		angle = 0.0f;
 		minAngle = 0.0f;
 		aimRange = 60.0f;
+		lastUpdate = 0.0f;
 		currentCurrency = 0;
 		gunPos = new Vector3 (fRadius, 0.0f, 0.0f);
 		gun.position = transform.position + gunPos + gunPosOffset;
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 		if (!isDead) 
 		{
 			HandleInput ();
-			//AccumulateCurrency ();
+			AccumulateCurrency ();
 		}
 
 	}
@@ -108,13 +108,14 @@ public class PlayerController : MonoBehaviour
 	{
 		//handle movemement
 
-		bool moveLeft, moveRight, aimUp, aimDown, fireKey, shopKey;
+		bool moveLeft, moveRight, cycleWeapon, aimUp, aimDown, fireKey, shopKey;
 
 		// Player 1 controls
 		if(isP1)
 		{
 			moveLeft 	= Input.GetKey(KeyCode.A);
 			moveRight 	= Input.GetKey(KeyCode.D);
+			cycleWeapon = Input.GetKeyDown (KeyCode.H);
 			aimUp 		= Input.GetKey(KeyCode.W);
 			aimDown 	= Input.GetKey(KeyCode.S);
 			fireKey		= Input.GetKey(KeyCode.F);
@@ -123,10 +124,11 @@ public class PlayerController : MonoBehaviour
 		// Player 2 controls (will i,j,k,l work better?)
 		else
 		{
-			moveLeft 	= Input.GetKey(KeyCode.LeftArrow);
-			moveRight 	= Input.GetKey(KeyCode.RightArrow);
-			aimUp 		= Input.GetKey(KeyCode.UpArrow);
-			aimDown 	= Input.GetKey(KeyCode.DownArrow);
+			moveLeft 	= Input.GetKey(KeyCode.J);
+			moveRight 	= Input.GetKey(KeyCode.L);
+			cycleWeapon = Input.GetKeyDown (KeyCode.Return); //Enter key
+			aimUp 		= Input.GetKey(KeyCode.I);
+			aimDown 	= Input.GetKey(KeyCode.K);
 			fireKey		= Input.GetKey(KeyCode.Semicolon);
 			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
@@ -135,6 +137,10 @@ public class PlayerController : MonoBehaviour
 		if(moveLeft) 		_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
 		else if(moveRight) 	_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
 
+		//cycle weapons
+		/*if (cycleWeapon)
+			currentWeapon = (currentWeapon + 1) % weapons.GetUpperBound (0);*/
+
 
 		// handle aiming 
 	
@@ -142,10 +148,13 @@ public class PlayerController : MonoBehaviour
 		float oldAngle = angle;
 
 		//adjust angle based on input
-		if (aimUp) 
-			angle += aimSpeed * Time.deltaTime;
-		else if(aimDown)
-			angle -= aimSpeed * Time.deltaTime;
+		if (!shopOpen) 
+		{
+			if (aimUp)
+				angle += aimSpeed * Time.deltaTime;
+			else if (aimDown)
+				angle -= aimSpeed * Time.deltaTime;
+		}
 
 		// constrain to aiming range & change position/rotation if angle has changed
 		if (oldAngle != angle) 
@@ -165,12 +174,10 @@ public class PlayerController : MonoBehaviour
 		// fire handling
 		if(fireKey && canFire && !shopOpen)
 		{
-			
 				FireBullet ();
 				canFire = false;
 				//StartCoroutine (FireRoutine (fireRate));
 				StartCoroutine (FireRoutine (weapons [currentWeapon].fireRate));
-
 		}
 			
 		if (shopKey) 
@@ -188,13 +195,6 @@ public class PlayerController : MonoBehaviour
 
 	private void FireBullet()
 	{
-		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
-
-		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
-		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
-	}
-
-	private void FireBullet1(){
 		Vector3 bulletPos = gun.transform.position + (gun.transform.right * bulletSpawnOffset);
 
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
@@ -221,20 +221,13 @@ public class PlayerController : MonoBehaviour
 		currentHealth -= dmg;
 		//audio: hurt
 		UpdateHealth ();
-		AccumulateCurrency ();
-
-		if(isP1){
-			PHealth.text = currentHealth + "/50";
-		}
-		if (!isP1) {
-			PHealth.text = currentHealth + "/50";
-		}
-
+		//AccumulateCurrency ();
+		currentCurrency += 5;
 	}
 
 	private void AccumulateCurrency()
 	{
-		if(isP1){
+		/*if(isP1){
 			currentCurrency += 10;
 			Currency.text = "Currency:" + currentCurrency;
 		
@@ -242,6 +235,12 @@ public class PlayerController : MonoBehaviour
 		if (!isP1) {
 			currentCurrency += 10;
 			Currency.text = "Currency:" + currentCurrency;
+		}*/
+		if (Time.time - lastUpdate >= 1f) 
+		{
+			currentCurrency += 1;
+			Currency.text = "Currency: " + currentCurrency;
+			lastUpdate = Time.time;
 		}
 	}
 
@@ -277,7 +276,4 @@ public class PlayerController : MonoBehaviour
 		}
 
 	}
-
-
 }
-
