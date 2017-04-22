@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 	//Audio
 	public AudioSource defaultFireSound;
 	public AudioSource bulletBlastSound;
-
+	public AudioSource slitherSound;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
 	private PlayerUI playerUI; //use this instead of slider
 	private Transform spawnPoint;
 	private ShopHandler shop;
+
+	public Vector3 zeroVector = new Vector3(0.0f, 0.0f, 0.0f);
 
 	// Use this for initialization
 	void Start () 
@@ -74,6 +76,9 @@ public class PlayerController : MonoBehaviour
 			transform.Rotate(0, 180, 0, Space.Self);
 			gunPosOffset.x *= -1;
 		}
+
+		slitherSound.Play ();
+		slitherSound.Pause ();
 	}
 
 	//used in "overlord" to spawn characters after being selected
@@ -136,8 +141,22 @@ public class PlayerController : MonoBehaviour
 		}
 			
 		// left/right movement
-		if(moveLeft) 		_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
-		else if(moveRight) 	_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
+		if(moveLeft){
+			_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
+			if (!slitherSound.isPlaying) {
+				slitherSound.UnPause ();
+			}
+		} 		
+		else if(moveRight){
+			_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
+			if (!slitherSound.isPlaying) {
+				slitherSound.UnPause ();
+			}
+		} 	
+
+		if (!moveLeft && !moveRight) {
+			slitherSound.Pause ();
+		}
 
 		//cycle weapons
 		/*if (cycleWeapon)
@@ -187,6 +206,8 @@ public class PlayerController : MonoBehaviour
 			shopOpen = !shopOpen;
 			shop.enabled = !shop.enabled;
 		}
+
+
 	}
 
 	IEnumerator FireRoutine(float duration)
