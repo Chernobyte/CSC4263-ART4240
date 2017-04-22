@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
-	public Transform win; //winning/losing should not be handled in this script
-	public Text WhoWins;
 	public Text Currency; //needs to be moved either next to or under the healthbar
 	//for shop
 	public ShopItem[] weapons;
@@ -208,7 +206,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Debug.Log ("DEAD");
 			isDead = true;
-			Winscreen ();
+
 			//currentHealth = maxHealth;
 			//opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
@@ -259,6 +257,7 @@ public class PlayerController : MonoBehaviour
 
 	}
 
+	/*
 	public void Winscreen(){
 
 		if(isP1 && isDead && win.gameObject.activeInHierarchy==false){
@@ -276,4 +275,5 @@ public class PlayerController : MonoBehaviour
 		}
 
 	}
+*/
 }

@@ -7,6 +7,8 @@ public class PauseGame : MonoBehaviour {
 	public Transform pausemenu;
 
 
+	void Start(){
+	}
 
 	// Update is called once per frame
 	void Update () {
