@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
 	public ShopItem[] weapons;
 	public int currentWeapon;
 
+	//Audio
+	public AudioSource defaultFireSound;
+	public AudioSource bulletBlastSound;
+
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -197,6 +201,8 @@ public class PlayerController : MonoBehaviour
 
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
+
+		defaultFireSound.Play ();
 	}
 
 	//should only check when someone takes damage
@@ -217,7 +223,7 @@ public class PlayerController : MonoBehaviour
 	public void TakeDmg(int dmg)
 	{
 		currentHealth -= dmg;
-		//audio: hurt
+		bulletBlastSound.Play ();
 		UpdateHealth ();
 		//AccumulateCurrency ();
 		currentCurrency += 5;
