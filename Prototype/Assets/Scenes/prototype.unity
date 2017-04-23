@@ -458,6 +458,71 @@ Prefab:
       propertyPath: slitherSound
       value: 
       objectReference: {fileID: 1571772491}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage1
+      value: 
+      objectReference: {fileID: 8300000, guid: 032b388c52c38ed458ea19e4418aea7e, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage2
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c54efbd329645c45ae323a6bc009b48, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage3
+      value: 
+      objectReference: {fileID: 8300000, guid: a90ca02bf8377194aac5f4e85b30ca7e, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage4
+      value: 
+      objectReference: {fileID: 8300000, guid: b2bf4c89a51d0124eb1f890621a7f84b, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage5
+      value: 
+      objectReference: {fileID: 8300000, guid: 09d7fa3f3721381469bf8e54c6d3c703, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage6
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cf3da6ea5066b345b1dd781890ed244, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage7
+      value: 
+      objectReference: {fileID: 8300000, guid: 942482f3b088adf4aaf221e9f63da512, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage8
+      value: 
+      objectReference: {fileID: 8300000, guid: 555a29f0473bc704cba8a747d02047dd, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage9
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b5cae19dac609c41abef748858152a5, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage10
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ba0696f829649740b87c80ce8584431, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage11
+      value: 
+      objectReference: {fileID: 8300000, guid: fe45e5b8ddb9bff4eb0ff2c75a6829f6, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage12
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a92c405fd9bfc342959994dc20310a2, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamageSource
+      value: 
+      objectReference: {fileID: 1571772484}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
   m_IsPrefabParent: 0
@@ -937,6 +1002,86 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!82 &297691258
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 297691255}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &297691260 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
@@ -1125,6 +1270,71 @@ Prefab:
       propertyPath: slitherSound
       value: 
       objectReference: {fileID: 297691265}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage2
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c54efbd329645c45ae323a6bc009b48, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage1
+      value: 
+      objectReference: {fileID: 8300000, guid: 032b388c52c38ed458ea19e4418aea7e, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage3
+      value: 
+      objectReference: {fileID: 8300000, guid: a90ca02bf8377194aac5f4e85b30ca7e, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage4
+      value: 
+      objectReference: {fileID: 8300000, guid: b2bf4c89a51d0124eb1f890621a7f84b, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage5
+      value: 
+      objectReference: {fileID: 8300000, guid: 09d7fa3f3721381469bf8e54c6d3c703, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage6
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cf3da6ea5066b345b1dd781890ed244, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage7
+      value: 
+      objectReference: {fileID: 8300000, guid: 942482f3b088adf4aaf221e9f63da512, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage8
+      value: 
+      objectReference: {fileID: 8300000, guid: 555a29f0473bc704cba8a747d02047dd, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage9
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b5cae19dac609c41abef748858152a5, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage10
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ba0696f829649740b87c80ce8584431, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage11
+      value: 
+      objectReference: {fileID: 8300000, guid: fe45e5b8ddb9bff4eb0ff2c75a6829f6, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamage12
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a92c405fd9bfc342959994dc20310a2, type: 3}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: takeDamageSource
+      value: 
+      objectReference: {fileID: 297691258}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
   m_IsPrefabParent: 0
@@ -6489,6 +6699,86 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 173f4c1132cb49c4bbfc4a78f23a624b, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!82 &1571772484
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571772481}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

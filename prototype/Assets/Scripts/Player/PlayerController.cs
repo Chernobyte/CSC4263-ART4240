@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour 
 {
@@ -27,6 +29,22 @@ public class PlayerController : MonoBehaviour
 	public AudioSource defaultFireSound;
 	public AudioSource bulletBlastSound;
 	public AudioSource slitherSound;
+	public AudioSource takeDamageSource;
+	public AudioClip takeDamage1;
+	public AudioClip takeDamage2;
+	public AudioClip takeDamage3;
+	public AudioClip takeDamage4;
+	public AudioClip takeDamage5;
+	public AudioClip takeDamage6;
+	public AudioClip takeDamage7;
+	public AudioClip takeDamage8;
+	public AudioClip takeDamage9;
+	public AudioClip takeDamage10;
+	public AudioClip takeDamage11;
+	public AudioClip takeDamage12;
+	System.Random random = new System.Random ();
+	private int randomTakeDamage;
+
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -244,7 +262,36 @@ public class PlayerController : MonoBehaviour
 	public void TakeDmg(int dmg)
 	{
 		currentHealth -= dmg;
+
 		bulletBlastSound.Play ();
+		randomTakeDamage = random.Next (1,13);
+		if (randomTakeDamage == 1) {
+			takeDamageSource.clip = takeDamage1;
+		} else if (randomTakeDamage == 2) {
+			takeDamageSource.clip = takeDamage2;
+		} else if (randomTakeDamage == 3) {
+			takeDamageSource.clip = takeDamage3;
+		} else if (randomTakeDamage == 4) {
+			takeDamageSource.clip = takeDamage4;
+		} else if (randomTakeDamage == 5) {
+			takeDamageSource.clip = takeDamage5;
+		} else if (randomTakeDamage == 6) {
+			takeDamageSource.clip = takeDamage6;
+		} else if(randomTakeDamage == 7){
+			takeDamageSource.clip = takeDamage7;
+		} else if(randomTakeDamage == 8){
+			takeDamageSource.clip = takeDamage8;
+		} else if(randomTakeDamage == 9){
+			takeDamageSource.clip = takeDamage9;
+		} else if(randomTakeDamage == 10){
+			takeDamageSource.clip = takeDamage10;
+		} else if(randomTakeDamage == 11){
+			takeDamageSource.clip = takeDamage11;
+		} else{
+			takeDamageSource.clip = takeDamage12;
+		}
+		takeDamageSource.Play();
+		
 		UpdateHealth ();
 		//AccumulateCurrency ();
 		currentCurrency += 5;
