@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
 	public Text Currency; //needs to be moved either next to or under the healthbar
+	public Text cHealth;
+
 	//for shop
 	public ShopItem[] weapons;
 	public int currentWeapon;
@@ -295,6 +297,9 @@ public class PlayerController : MonoBehaviour
 		UpdateHealth ();
 		//AccumulateCurrency ();
 		currentCurrency += 5;
+
+		cHealth.text = currentHealth + "/50";
+
 	}
 
 	private void AccumulateCurrency()

@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf75a87a0b1a9d43be1cb070a364570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 0
 --- !u!1 &129377468
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,6 +496,11 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: cHealth
+      value: 
+      objectReference: {fileID: 2057910329}
     m_RemovedComponents:
     - {fileID: 61531717008452762, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
     - {fileID: 50103383288847260, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
@@ -634,6 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf75a87a0b1a9d43be1cb070a364570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 0
 --- !u!1 &197229434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,6 +1349,11 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114235528096567890, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: cHealth
+      value: 
+      objectReference: {fileID: 1033391413}
     m_RemovedComponents:
     - {fileID: 61531717008452762, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
     - {fileID: 50103383288847260, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
@@ -2494,6 +2506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf75a87a0b1a9d43be1cb070a364570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 0
 --- !u!1 &999698058
 GameObject:
   m_ObjectHideFlags: 0
@@ -7418,6 +7431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf75a87a0b1a9d43be1cb070a364570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 0
 --- !u!1 &2057910327
 GameObject:
   m_ObjectHideFlags: 0

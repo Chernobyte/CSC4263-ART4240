@@ -8,7 +8,7 @@ public class Movingplatform : MonoBehaviour {
 	public float moveSpeed;
 	public Transform currentPoint;
 	public Transform[] points;
-	public int pointSelection;
+	public int pointSelection = 0;
 
 	void Start () {
 		currentPoint = points [pointSelection];
@@ -22,10 +22,7 @@ public class Movingplatform : MonoBehaviour {
 
 		//after we move towards the position we want the platform to move back
 		if (platform.transform.position == currentPoint.position) {
-			pointSelection++;
-			if(pointSelection == points.Length){
-				pointSelection = 0;
-			}
+			pointSelection = Random.Range (0, 10);
 			currentPoint = points [pointSelection];
 		}
 	}
