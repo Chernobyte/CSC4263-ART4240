@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
 	public AudioClip takeDamage12;
 	System.Random random = new System.Random ();
 	private int randomTakeDamage;
+	private int map;
 
 
 	private bool canFire = true;
@@ -135,13 +136,15 @@ public class PlayerController : MonoBehaviour
 	{
 		//handle movemement
 
-		bool moveLeft, moveRight, cycleWeapon, aimUp, aimDown, fireKey, shopKey;
+		bool moveLeft, moveRight, cycleWeapon, aimUp, aimDown, fireKey, shopKey, moveUp, moveDown;
 
 		// Player 1 controls
 		if(isP1)
 		{
 			moveLeft 	= Input.GetKey(KeyCode.A);
 			moveRight 	= Input.GetKey(KeyCode.D);
+			moveUp = Input.GetKey (KeyCode.E);
+			moveDown = Input.GetKey (KeyCode.Q);
 			cycleWeapon = Input.GetKeyDown (KeyCode.H);
 			aimUp 		= Input.GetKey(KeyCode.W);
 			aimDown 	= Input.GetKey(KeyCode.S);
@@ -153,31 +156,56 @@ public class PlayerController : MonoBehaviour
 		{
 			moveLeft 	= Input.GetKey(KeyCode.J);
 			moveRight 	= Input.GetKey(KeyCode.L);
+			moveUp = Input.GetKey (KeyCode.O);
+			moveDown = Input.GetKey (KeyCode.U);
 			cycleWeapon = Input.GetKeyDown (KeyCode.Return); //Enter key
 			aimUp 		= Input.GetKey(KeyCode.I);
 			aimDown 	= Input.GetKey(KeyCode.K);
 			fireKey		= Input.GetKey(KeyCode.Semicolon);
 			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
-			
-		// left/right movement
-		if(moveLeft){
-			_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
-			if (!slitherSound.isPlaying) {
-				slitherSound.UnPause ();
-			}
-		} 		
-		else if(moveRight){
-			_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
-			if (!slitherSound.isPlaying) {
-				slitherSound.UnPause ();
-			}
-		} 	
 
-		if (!moveLeft && !moveRight) {
-			slitherSound.Pause ();
+		if (map == 3) {
+			if (moveLeft) {
+				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveRight) {
+				_rb.velocity = new Vector3 (maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveUp) {
+				_rb.velocity = new Vector3 (0.0f, maxSpeed, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveUp) {
+					_rb.velocity = new Vector3 (0.0f, -maxSpeed, 0.0f);
+					if (!slitherSound.isPlaying) {
+						slitherSound.UnPause ();
+					}
+
+				}
+			}else {
+			// left/right movement
+			if (moveLeft) {
+				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveRight) {
+				_rb.velocity = new Vector3 (maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} 	
+		
+			if (!moveLeft && !moveRight) {
+				slitherSound.Pause ();
+			}
 		}
-
 		//cycle weapons
 		/*if (cycleWeapon)
 			currentWeapon = (currentWeapon + 1) % weapons.GetUpperBound (0);*/
