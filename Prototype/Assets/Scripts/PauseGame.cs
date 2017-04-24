@@ -20,6 +20,7 @@ public class PauseGame : MonoBehaviour {
 
 	}
 	public void Pause(){
+		
 		if (pausemenu.gameObject.activeInHierarchy == false) {
 			pausemenu.gameObject.SetActive (true);
 			Time.timeScale = 0;
@@ -27,6 +28,8 @@ public class PauseGame : MonoBehaviour {
 		} else {
 			pausemenu.gameObject.SetActive (false);
 			Time.timeScale = 1;
+
+			//sets volume lower so if it blaring user can quickly turn volume down
 			audi.volume = .5f;
 		}
 	}

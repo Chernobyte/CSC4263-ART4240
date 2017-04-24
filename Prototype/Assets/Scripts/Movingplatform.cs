@@ -19,6 +19,8 @@ public class Movingplatform : MonoBehaviour {
 
 		platform.transform.position = Vector3.MoveTowards (platform.transform.position, currentPoint.position, Time.deltaTime * moveSpeed);
 
+
+		//after we move towards the position we want the platform to move back
 		if (platform.transform.position == currentPoint.position) {
 			pointSelection++;
 			if(pointSelection == points.Length){
