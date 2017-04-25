@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	public Text WhoWins;
 	public Text Currency; //needs to be moved either next to or under the healthbar
 	//for shop
-	public ShopItem[] weapons;
+	public List<ShopItem> weapons;
 	public int currentWeapon;
 
 
@@ -176,7 +176,6 @@ public class PlayerController : MonoBehaviour
 		{
 				FireBullet ();
 				canFire = false;
-				//StartCoroutine (FireRoutine (fireRate));
 				StartCoroutine (FireRoutine (weapons [currentWeapon].fireRate));
 		}
 			

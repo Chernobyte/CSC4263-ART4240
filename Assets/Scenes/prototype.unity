@@ -725,6 +725,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114511576438600484, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: shopList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4788938351474228, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
       propertyPath: m_LocalPosition.x
       value: -8
@@ -791,6 +796,24 @@ Prefab:
       propertyPath: Currency
       value: 
       objectReference: {fileID: 752474213}
+    - target: {fileID: 114511576438600484, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: shopList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75388a73bb4968d418b3d4f34565e245,
+        type: 2}
+    - target: {fileID: 114511576438600484, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: shopList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1411c1551ef95094ea362ed840be0797,
+        type: 2}
+    - target: {fileID: 114511576438600484, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb,
+        type: 2}
+      propertyPath: shopList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e322a7eb410c324b884a75143c51e5b,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
   m_IsPrefabParent: 0
