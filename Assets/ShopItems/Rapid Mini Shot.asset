@@ -14,7 +14,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1157200652451660, guid: f9277ddaadde94f40884ba123f26eac9,
     type: 2}
   itemName: Rapid Mini Shot
-  cost: 10
+  cost: 20
   description: fast firerate, low damage
   fireRate: 0.25
   damage: 2

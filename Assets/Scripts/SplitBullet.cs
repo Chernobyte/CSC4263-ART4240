@@ -23,11 +23,15 @@ public class SplitBullet : MonoBehaviour {
 		if (fire) 
 		{
 			//GameObject curBullet = Instantiate (splitBullet, transform, transform.rotation);
-			GameObject curBullet1 = Instantiate (gameObject, transform);
-			GameObject curBullet2 = Instantiate (gameObject, transform);
-			//curBullet1.GetComponent<Bullet>().GetFiringPlayer(this);
-			//curBullet2.GetComponent<Bullet>().GetFiringPlayer(this);
+			GameObject curBullet1 = Instantiate (splitBullet, transform);
+			GameObject curBullet2 = Instantiate (splitBullet, transform);
+			Rigidbody2D tmp;
+			tmp = curBullet1.GetComponent<Rigidbody2D> ();
+			tmp.AddForce (tmp.velocity + bull.spread * Vector2.right);
+			tmp = curBullet2.GetComponent<Rigidbody2D> ();
+			tmp.AddForce (tmp.velocity + bull.spread * Vector2.left);
 
+			//curBullet2.GetComponent<Bullet>().GetFiringPlayer(this);
 
 		}
 	}

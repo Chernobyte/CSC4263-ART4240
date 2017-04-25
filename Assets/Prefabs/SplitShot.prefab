@@ -98,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1694574209534294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.88, y: -2.14, z: 0}
+  m_LocalPosition: {x: -4.528839, y: -7.2835207, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children:
   - {fileID: 4789585693688956}
@@ -119,8 +119,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_AngularDrag: 0.5
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -270,11 +270,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrenade: 0
-  damage: 5
-  spread: 0.05
+  damage: 10
+  spread: 0.01
   bulletForce: 1500
-  lifespan: 10
+  lifespan: 20
   hurtboxTriggerObject: {fileID: 1546614471227704}
+  parentPlayer: {fileID: 0}
 --- !u!114 &114773707026592050
 MonoBehaviour:
   m_ObjectHideFlags: 1

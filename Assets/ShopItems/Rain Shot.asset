@@ -9,12 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cf3d9b8c0aef8849885fc9d5f2ec058, type: 3}
-  m_Name: Split Shot
+  m_Name: Rain Shot
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
-  itemName: Split Shot
-  cost: 10
-  description: splits into 2 smaller bullets mid flight
-  fireRate: 1.5
-  damage: 5
-  bulletForce: 1500
+  bulletPrefab: {fileID: 1527376068227732, guid: d099cb734726dde419128638cb02cbb3,
+    type: 2}
+  itemName: Rain Shot
+  cost: 30
+  description: fastest firerate, lowest damage
+  fireRate: 0.05
+  damage: 1
+  bulletForce: 1000

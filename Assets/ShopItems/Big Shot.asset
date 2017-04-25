@@ -9,12 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cf3d9b8c0aef8849885fc9d5f2ec058, type: 3}
-  m_Name: Grenade Shot
+  m_Name: Big Shot
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
-  itemName: Grenade Shot
-  cost: 15
-  description: detonates seconds after hitting the ground
+  bulletPrefab: {fileID: 1694574209534294, guid: bbcc9f1747f1529459d5135de6a47e63,
+    type: 2}
+  itemName: Big Shot
+  cost: 20
+  description: slow firerate, high damage
   fireRate: 3
-  damage: 20
+  damage: 10
   bulletForce: 1500
