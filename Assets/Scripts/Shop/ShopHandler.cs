@@ -208,6 +208,7 @@ public class ShopHandler : MonoBehaviour {
 				pc.weapons.Add (shopList [1]);
 				pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
 				pc.currentCurrency -= shopList[1].cost;
+				pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
 				shopList.RemoveAt (1);
 			}
 		} 
@@ -217,6 +218,7 @@ public class ShopHandler : MonoBehaviour {
 			pc.weapons.Add (shopList [0]);
 			pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
 			pc.currentCurrency -= shopList[0].cost;
+			pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
 			shopList.RemoveAt (0);
 		}
 	}

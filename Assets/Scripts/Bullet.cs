@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 
     /*public float knockbackStrength = 2.0f;
     public Vector2 knockbackDirection;*/
+	public bool isGrenade; 
     public int damage = 10;
 	public float spread;
     //public float stunTime = 1.0f;
@@ -17,7 +18,7 @@ public class Bullet : MonoBehaviour {
     private float spawnTime;
     private Vector2 oldVelocity;
     private Rigidbody2D _rigidBody;
-    private PlayerController parentPlayer;
+    public PlayerController parentPlayer;
     private Vector2 fireDirection;
 
 	private void Start()
@@ -36,8 +37,9 @@ public class Bullet : MonoBehaviour {
     {
 		if (!isFired) 
 		{
-			_rigidBody.AddForce (new Vector2 (transform.right.x + Random.Range (-spread, spread), 
-				transform.right.y + Random.Range (-spread, spread)) * bulletForce);
+			float tmp = Random.Range(-spread, spread);
+			_rigidBody.AddForce (new Vector2 (transform.right.x + tmp, 
+				transform.right.y - tmp) * bulletForce);
 			isFired = true;
 		}
 
@@ -99,7 +101,8 @@ public class Bullet : MonoBehaviour {
                 player.TakeHit(trueKnockbackDirection * knockbackStrength, damage, stunTime);
                 Destroy(gameObject);*/
 				player.TakeDmg (damage);
-				parentPlayer.currentCurrency += 5;
+				parentPlayer.currentCurrency += 3;
+				parentPlayer.Currency.text = "Currency: " + parentPlayer.currentCurrency;
             }
         }
     }

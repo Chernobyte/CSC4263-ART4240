@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	public Transform win; //winning/losing should not be handled in this script
 	public Text WhoWins;
 	public Text Currency; //needs to be moved either next to or under the healthbar
+	public Text currentWeaponTxt;
 	//for shop
 	public List<ShopItem> weapons;
 	public int currentWeapon;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
 		isDead = false;
 		currentHealth = maxHealth;
 		currentWeapon = 0;
+		currentWeaponTxt.text = weapons [currentWeapon].ToString ().Replace(" (ShopItem)", "");
 		angle = 0.0f;
 		minAngle = 0.0f;
 		aimRange = 60.0f;
@@ -146,6 +148,8 @@ public class PlayerController : MonoBehaviour
 				currentWeapon++;
 			else
 				currentWeapon = 0;
+
+			currentWeaponTxt.text = weapons [currentWeapon].ToString ().Replace(" (ShopItem)", "");
 		}
 
 
@@ -230,11 +234,12 @@ public class PlayerController : MonoBehaviour
 		UpdateHealth ();
 		//AccumulateCurrency ();
 		currentCurrency += 5;
+		Currency.text = "Currency: " + currentCurrency;
 	}
 
 	private void AccumulateCurrency()
 	{
-		if (Time.time - lastUpdate >= 1f) 
+		if (Time.time - lastUpdate >= 2f) 
 		{
 			currentCurrency += 1;
 			Currency.text = "Currency: " + currentCurrency;
