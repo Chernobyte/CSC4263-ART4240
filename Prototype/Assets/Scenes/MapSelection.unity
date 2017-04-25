@@ -158,7 +158,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DEFAULT
+  m_Text: Basic Map
 --- !u!222 &113498190
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -675,7 +675,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MAP1
+  m_Text: Paralell Platforms
 --- !u!222 &892719905
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -884,7 +884,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MAP2
+  m_Text: Randomly Moving Platforms
 --- !u!222 &1163705559
 CanvasRenderer:
   m_ObjectHideFlags: 0

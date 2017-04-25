@@ -319,7 +319,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 703952066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.06, y: -1.53, z: 0}
+  m_LocalPosition: {x: 5.26, y: -2.93, z: 0}
   m_LocalScale: {x: 7.06, y: 1.86, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -926,7 +926,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1921139447}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1921139449}
+        m_MethodName: LoadByIndex
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1921139447
@@ -1051,7 +1062,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4788938351474228, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.31
+      value: -0.62
       objectReference: {fileID: 0}
     - target: {fileID: 4788938351474228, guid: 6f1f8e0f21b9c9f49b654dbdab16dcdb, type: 2}
       propertyPath: m_LocalPosition.z
