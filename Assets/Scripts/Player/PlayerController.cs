@@ -140,6 +140,13 @@ public class PlayerController : MonoBehaviour
 		//cycle weapons
 		/*if (cycleWeapon)
 			currentWeapon = (currentWeapon + 1) % weapons.GetUpperBound (0);*/
+		if (cycleWeapon) 
+		{
+			if (currentWeapon + 1 < weapons.Count)
+				currentWeapon++;
+			else
+				currentWeapon = 0;
+		}
 
 
 		// handle aiming 
@@ -198,6 +205,7 @@ public class PlayerController : MonoBehaviour
 
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
+		//curBullet.transform.parent = gameObject.transform;
 	}
 
 	//should only check when someone takes damage
@@ -226,15 +234,6 @@ public class PlayerController : MonoBehaviour
 
 	private void AccumulateCurrency()
 	{
-		/*if(isP1){
-			currentCurrency += 10;
-			Currency.text = "Currency:" + currentCurrency;
-		
-		}
-		if (!isP1) {
-			currentCurrency += 10;
-			Currency.text = "Currency:" + currentCurrency;
-		}*/
 		if (Time.time - lastUpdate >= 1f) 
 		{
 			currentCurrency += 1;

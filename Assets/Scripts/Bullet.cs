@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     /*public float knockbackStrength = 2.0f;
     public Vector2 knockbackDirection;*/
     public int damage = 10;
+	public float spread;
     //public float stunTime = 1.0f;
     public float bulletForce = 1500.0f;
     public float lifespan = 5.0f;
@@ -27,22 +28,25 @@ public class Bullet : MonoBehaviour {
 
         var hurtboxTrigger = hurtboxTriggerObject.GetComponent<TriggerCallback>();
         hurtboxTrigger.Init(OnHurtboxTriggerEnter2D, OnHurtboxTriggerExit2D, null);
+
+
     }
 
 	private void Update()
     {
 		if (!isFired) 
 		{
-			_rigidBody.AddForce (new Vector2 (transform.right.x, transform.right.y) * bulletForce);
+			_rigidBody.AddForce (new Vector2 (transform.right.x + Random.Range (-spread, spread), 
+				transform.right.y + Random.Range (-spread, spread)) * bulletForce);
 			isFired = true;
 		}
-		
+
         if (Time.time - spawnTime > lifespan)
         {
             Destroy(gameObject);
         }
     }
-
+		
     /*public void Initialize(Vector2 direction, PlayerController player)
     {
         parentPlayer = player;

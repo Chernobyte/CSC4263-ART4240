@@ -10,10 +10,10 @@ public class Overlord2 : MonoBehaviour {
 
     //private List<PlayerSelection> playerSelections;
     //private SpawnPoint[] spawnPoints;
-    private List<Player> players = new List<Player>();
-    private PlayerUI[] playerUIs;
+    //private List<Player> players = new List<Player>();
+    //private PlayerUI[] playerUIs;
     private bool playersCached = false;
-    private List<Player> losers = new List<Player>();
+    //private List<Player> losers = new List<Player>();
 
 	void Start ()
     {
