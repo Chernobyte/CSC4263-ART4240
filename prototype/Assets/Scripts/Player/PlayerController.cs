@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour 
 {
@@ -18,13 +21,34 @@ public class PlayerController : MonoBehaviour
 	public Transform gun;
 	public Vector3 gunPosOffset = new Vector3(0.0f, 0.0f, -0.1f); //use this to line up cursor with character's mouth/etc
 	public Slider healthBar;
-	public Transform win; //winning/losing should not be handled in this script
-	public Text WhoWins;
 	public Text Currency; //needs to be moved either next to or under the healthbar
+	public Text cHealth;
+
 	//for shop
 	public ShopItem[] weapons;
 	public int currentWeapon;
 
+	//Audio
+	public AudioSource defaultFireSound;
+	public AudioSource bulletBlastSound;
+	public AudioSource slitherSound;
+	public AudioSource takeDamageSource;
+	public AudioClip takeDamage1;
+	public AudioClip takeDamage2;
+	public AudioClip takeDamage3;
+	public AudioClip takeDamage4;
+	public AudioClip takeDamage5;
+	public AudioClip takeDamage6;
+	public AudioClip takeDamage7;
+	public AudioClip takeDamage8;
+	public AudioClip takeDamage9;
+	public AudioClip takeDamage10;
+	public AudioClip takeDamage11;
+	public AudioClip takeDamage12;
+	System.Random random = new System.Random ();
+	private int randomTakeDamage;
+	private int map;
+	private int currentScene;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -42,12 +66,15 @@ public class PlayerController : MonoBehaviour
 	private Transform spawnPoint;
 	private ShopHandler shop;
 
+	public Vector3 zeroVector = new Vector3(0.0f, 0.0f, 0.0f);
+
 	// Use this for initialization
 	void Start () 
 	{
 		/*foreach(SpriteRenderer sr in gameObject.GetComponentsInChildren<SpriteRenderer> ()){
 			Debug.Log (sr.name + " : " + sr.bounds.size);
 		}*/
+		currentScene = SceneManager.GetActiveScene().buildIndex;
 
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
@@ -72,6 +99,9 @@ public class PlayerController : MonoBehaviour
 			transform.Rotate(0, 180, 0, Space.Self);
 			gunPosOffset.x *= -1;
 		}
+
+		slitherSound.Play ();
+		slitherSound.Pause ();
 	}
 
 	//used in "overlord" to spawn characters after being selected
@@ -108,13 +138,15 @@ public class PlayerController : MonoBehaviour
 	{
 		//handle movemement
 
-		bool moveLeft, moveRight, cycleWeapon, aimUp, aimDown, fireKey, shopKey;
+		bool moveLeft, moveRight, cycleWeapon, aimUp, aimDown, fireKey, shopKey, moveUp, moveDown;
 
 		// Player 1 controls
 		if(isP1)
 		{
 			moveLeft 	= Input.GetKey(KeyCode.A);
 			moveRight 	= Input.GetKey(KeyCode.D);
+			moveUp = Input.GetKey (KeyCode.E);
+			moveDown = Input.GetKey (KeyCode.Q);
 			cycleWeapon = Input.GetKeyDown (KeyCode.H);
 			aimUp 		= Input.GetKey(KeyCode.W);
 			aimDown 	= Input.GetKey(KeyCode.S);
@@ -126,17 +158,56 @@ public class PlayerController : MonoBehaviour
 		{
 			moveLeft 	= Input.GetKey(KeyCode.J);
 			moveRight 	= Input.GetKey(KeyCode.L);
+			moveUp = Input.GetKey (KeyCode.O);
+			moveDown = Input.GetKey (KeyCode.U);
 			cycleWeapon = Input.GetKeyDown (KeyCode.Return); //Enter key
 			aimUp 		= Input.GetKey(KeyCode.I);
 			aimDown 	= Input.GetKey(KeyCode.K);
 			fireKey		= Input.GetKey(KeyCode.Semicolon);
 			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
-			
-		// left/right movement
-		if(moveLeft) 		_rb.velocity = new Vector3(-maxSpeed, 0.0f, 0.0f);
-		else if(moveRight) 	_rb.velocity = new Vector3( maxSpeed, 0.0f, 0.0f);
 
+		if (currentScene == 8) {
+			Debug.Log("hello");
+			if (moveLeft) {
+				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveRight) {
+				_rb.velocity = new Vector3 (maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveUp) {
+				_rb.velocity = new Vector3 (0.0f, maxSpeed, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveDown) {
+					_rb.velocity = new Vector3 (0.0f, -maxSpeed, 0.0f);
+					if (!slitherSound.isPlaying) {
+						slitherSound.UnPause ();
+					}
+				}
+			}else {
+			// left/right movement
+			if (moveLeft) {
+				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} else if (moveRight) {
+				_rb.velocity = new Vector3 (maxSpeed, 0.0f, 0.0f);
+				if (!slitherSound.isPlaying) {
+					slitherSound.UnPause ();
+				}
+			} 	
+		
+			if (!moveLeft && !moveRight) {
+				slitherSound.Pause ();
+			}
+		}
 		//cycle weapons
 		/*if (cycleWeapon)
 			currentWeapon = (currentWeapon + 1) % weapons.GetUpperBound (0);*/
@@ -185,6 +256,8 @@ public class PlayerController : MonoBehaviour
 			shopOpen = !shopOpen;
 			shop.enabled = !shop.enabled;
 		}
+
+
 	}
 
 	IEnumerator FireRoutine(float duration)
@@ -199,6 +272,8 @@ public class PlayerController : MonoBehaviour
 
 		GameObject curBullet = Instantiate (weapons[currentWeapon].bulletPrefab, bulletPos, gun.transform.rotation);
 		curBullet.GetComponent<Bullet>().GetFiringPlayer(this);
+
+		defaultFireSound.Play ();
 	}
 
 	//should only check when someone takes damage
@@ -208,7 +283,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Debug.Log ("DEAD");
 			isDead = true;
-			Winscreen ();
+
 			//currentHealth = maxHealth;
 			//opponent.GetComponent<PlayerController>().currentHealth = maxHealth;
 		}
@@ -219,10 +294,42 @@ public class PlayerController : MonoBehaviour
 	public void TakeDmg(int dmg)
 	{
 		currentHealth -= dmg;
-		//audio: hurt
+
+		bulletBlastSound.Play ();
+		randomTakeDamage = random.Next (1,13);
+		if (randomTakeDamage == 1) {
+			takeDamageSource.clip = takeDamage1;
+		} else if (randomTakeDamage == 2) {
+			takeDamageSource.clip = takeDamage2;
+		} else if (randomTakeDamage == 3) {
+			takeDamageSource.clip = takeDamage3;
+		} else if (randomTakeDamage == 4) {
+			takeDamageSource.clip = takeDamage4;
+		} else if (randomTakeDamage == 5) {
+			takeDamageSource.clip = takeDamage5;
+		} else if (randomTakeDamage == 6) {
+			takeDamageSource.clip = takeDamage6;
+		} else if(randomTakeDamage == 7){
+			takeDamageSource.clip = takeDamage7;
+		} else if(randomTakeDamage == 8){
+			takeDamageSource.clip = takeDamage8;
+		} else if(randomTakeDamage == 9){
+			takeDamageSource.clip = takeDamage9;
+		} else if(randomTakeDamage == 10){
+			takeDamageSource.clip = takeDamage10;
+		} else if(randomTakeDamage == 11){
+			takeDamageSource.clip = takeDamage11;
+		} else{
+			takeDamageSource.clip = takeDamage12;
+		}
+		takeDamageSource.Play();
+		
 		UpdateHealth ();
 		//AccumulateCurrency ();
 		currentCurrency += 5;
+
+		cHealth.text = currentHealth + "/50";
+
 	}
 
 	private void AccumulateCurrency()
@@ -259,6 +366,7 @@ public class PlayerController : MonoBehaviour
 
 	}
 
+	/*
 	public void Winscreen(){
 
 		if(isP1 && isDead && win.gameObject.activeInHierarchy==false){
@@ -275,5 +383,13 @@ public class PlayerController : MonoBehaviour
 			WhoWins.text = "Player 1 Wins";
 		}
 
+	}
+*/
+
+	void OnCollisionEnter2D(Collision2D other){
+
+		if(other.transform.tag == "MovingPlatform"){
+			transform.parent = other.transform;
+		}
 	}
 }
