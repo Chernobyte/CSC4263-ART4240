@@ -7,17 +7,28 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
+    guid: 51ffe42e43c14794cb9cf803666ce3a4
   - enabled: 1
     path: Assets/Scenes/MAP-DEFAULT.unity
+    guid: 1168fc91b22064316aeeaeb73e92eabf
   - enabled: 1
     path: Assets/Scenes/HowToPlay.unity
+    guid: 98d5fb3ee5e9f3440a6ae5bc457f368d
   - enabled: 1
     path: Assets/Scenes/About.unity
+    guid: 3409b6262869a1e4cb5ccb47c7550cfd
   - enabled: 1
     path: Assets/Scenes/MapSelection.unity
+    guid: 46c840e1e9f84ec479c239dc2c212264
   - enabled: 1
     path: Assets/Scenes/MAP-MOVINGPLATFORMS.unity
+    guid: b818f81f9918b554faae4d5211c50413
   - enabled: 1
     path: Assets/Scenes/MAP-RANDOMPLATFORMS.unity
+    guid: 68d42e2d5126f344b9689b3235cb147a
   - enabled: 1
     path: Assets/Scenes/MAP-SPACE.unity
+    guid: abd9fd6c5d09e9b40bb975d74a74c576
+  - enabled: 1
+    path: Assets/Scenes/MAP-SPACESTAGE.unity
+    guid: db3c3b53e5632be41ae8f190da310cca
