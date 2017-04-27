@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour 
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
 	System.Random random = new System.Random ();
 	private int randomTakeDamage;
 	private int map;
-
+	private int currentScene = SceneManager.GetActiveScene().buildIndex;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -165,7 +166,8 @@ public class PlayerController : MonoBehaviour
 			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
 
-		if (map == 3) {
+		if (currentScene == 7) {
+			Debug.Log("hello");
 			if (moveLeft) {
 				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
 				if (!slitherSound.isPlaying) {
