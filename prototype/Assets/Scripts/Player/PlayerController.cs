@@ -181,12 +181,11 @@ public class PlayerController : MonoBehaviour
 				if (!slitherSound.isPlaying) {
 					slitherSound.UnPause ();
 				}
-			} else if (moveUp) {
+			} else if (moveDown) {
 					_rb.velocity = new Vector3 (0.0f, -maxSpeed, 0.0f);
 					if (!slitherSound.isPlaying) {
 						slitherSound.UnPause ();
 					}
-
 				}
 			}else {
 			// left/right movement
