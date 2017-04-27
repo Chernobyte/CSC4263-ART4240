@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 	System.Random random = new System.Random ();
 	private int randomTakeDamage;
 	private int map;
-	private int currentScene = SceneManager.GetActiveScene().buildIndex;
+	private int currentScene;
 
 	private bool canFire = true;
 	private bool shopOpen = false;
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
 		/*foreach(SpriteRenderer sr in gameObject.GetComponentsInChildren<SpriteRenderer> ()){
 			Debug.Log (sr.name + " : " + sr.bounds.size);
 		}*/
+		currentScene = SceneManager.GetActiveScene().buildIndex;
 
 		_rb = gameObject.GetComponent<Rigidbody2D>();
 		//_col = gameObject.GetComponent<BoxCollider2D>();
@@ -166,7 +167,7 @@ public class PlayerController : MonoBehaviour
 			shopKey 	= Input.GetKeyDown (KeyCode.Quote);
 		}
 
-		if (currentScene == 7) {
+		if (currentScene == 8) {
 			Debug.Log("hello");
 			if (moveLeft) {
 				_rb.velocity = new Vector3 (-maxSpeed, 0.0f, 0.0f);
