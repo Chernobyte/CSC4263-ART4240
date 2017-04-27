@@ -19,3 +19,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MAP-MOVINGPLATFORMS.unity
   - enabled: 1
     path: Assets/Scenes/MAP-RANDOMPLATFORMS.unity
+  - enabled: 1
+    path: Assets/Scenes/MAP-SPACE.unity
