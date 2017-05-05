@@ -56,8 +56,8 @@ GameObject:
   - component: {fileID: 212559537982412542}
   - component: {fileID: 61520829104541968}
   - component: {fileID: 50586904136058712}
+  - component: {fileID: 114603332267263950}
   - component: {fileID: 96697406772066286}
-  - component: {fileID: 114806038930217806}
   m_Layer: 0
   m_Name: DefaultBullet
   m_TagString: Untagged
@@ -85,7 +85,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988185841711468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6322353, y: -2.3997736, z: 0}
+  m_LocalPosition: {x: -2.2820778, y: 0.43034327, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4472179044495064}
@@ -258,18 +258,7 @@ TrailRenderer:
     textureMode: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &114781731840736032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1816247486080592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c520e1da3173edb44a51b27685403cee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114806038930217806
+--- !u!114 &114603332267263950
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -281,10 +270,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  spread: 0.1
   bulletForce: 1500
   lifespan: 5
   hurtboxTriggerObject: {fileID: 1816247486080592}
+--- !u!114 &114781731840736032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1816247486080592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c520e1da3173edb44a51b27685403cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198787749504672578
 ParticleSystem:
   m_ObjectHideFlags: 1

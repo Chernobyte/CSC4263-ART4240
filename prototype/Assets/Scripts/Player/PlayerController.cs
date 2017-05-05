@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour
 	public Slider healthBar;
 	public Text Currency; //needs to be moved either next to or under the healthbar
 	public Text cHealth;
+	public Text currentWeaponTxt;
 
 	//for shop
-	public ShopItem[] weapons;
+	public List<ShopItem> weapons;
 	public int currentWeapon;
 
 	//Audio
@@ -211,7 +212,15 @@ public class PlayerController : MonoBehaviour
 		//cycle weapons
 		/*if (cycleWeapon)
 			currentWeapon = (currentWeapon + 1) % weapons.GetUpperBound (0);*/
+		if (cycleWeapon) 
+		{
+			if (currentWeapon + 1 < weapons.Count)
+				currentWeapon++;
+			else
+				currentWeapon = 0;
 
+			currentWeaponTxt.text = weapons [currentWeapon].ToString ().Replace(" (ShopItem)", "");
+		}
 
 		// handle aiming 
 	

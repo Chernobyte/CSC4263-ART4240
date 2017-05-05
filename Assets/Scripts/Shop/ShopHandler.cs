@@ -88,7 +88,11 @@ public class ShopHandler : MonoBehaviour {
 			Screen.width / 8f,
 			Screen.height / 3f);
 
-		GUI.Box (shopRect, "Shop");
+		GUI.Box (shopRect, "");
+
+		GUIStyle custom = new GUIStyle ("button");
+		custom.fontSize = 8;
+
 
 		if(shopList.Count == 1) 
 		{
@@ -105,7 +109,7 @@ public class ShopHandler : MonoBehaviour {
 			GUILayout.EndHorizontal ();
 
 			//GUILayout.Space (5f);
-			GUILayout.Button (shopList[0].description);
+			GUILayout.Button (shopList[0].description, custom);
 			GUILayout.Space (10f);
 			GUILayout.EndArea ();
 		}
@@ -125,7 +129,7 @@ public class ShopHandler : MonoBehaviour {
 			GUILayout.EndHorizontal ();
 
 			//GUILayout.Space (5f);
-			GUILayout.Button (shopList[0].description);
+			GUILayout.Button (shopList[0].description, custom);
 			GUILayout.Space (10f);
 
 			if(shopList.Count > 1)
@@ -139,7 +143,7 @@ public class ShopHandler : MonoBehaviour {
 				GUILayout.EndHorizontal ();
 
 				//GUILayout.Space (5f);
-				GUILayout.Button (shopList[1].description);
+				GUILayout.Button (shopList[1].description, custom);
 				GUILayout.Space (10f);
 		
 				if(shopList.Count > 2)
@@ -153,7 +157,7 @@ public class ShopHandler : MonoBehaviour {
 					GUILayout.EndHorizontal ();
 
 					//GUILayout.Space (5f);
-					GUILayout.Button (shopList[2].description);
+					GUILayout.Button (shopList[2].description, custom);
 					GUILayout.Space (10f);
 				}
 			}
@@ -208,7 +212,7 @@ public class ShopHandler : MonoBehaviour {
 				pc.weapons.Add (shopList [1]);
 				pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
 				pc.currentCurrency -= shopList[1].cost;
-				pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
+				//pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
 				shopList.RemoveAt (1);
 			}
 		} 
@@ -218,7 +222,7 @@ public class ShopHandler : MonoBehaviour {
 			pc.weapons.Add (shopList [0]);
 			pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
 			pc.currentCurrency -= shopList[0].cost;
-			pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
+			//pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
 			shopList.RemoveAt (0);
 		}
 	}

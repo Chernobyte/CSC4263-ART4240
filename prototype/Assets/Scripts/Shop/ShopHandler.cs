@@ -6,26 +6,16 @@ using UnityEditor;
 public class ShopHandler : MonoBehaviour {
 
 	public Vector3 screenPos;
-	public ShopItem[] shopInventory;
+	public List<ShopItem> shopList;
+
 	private Vector3 charSize;
 	private SpriteRenderer sr;
-	private List<string> itemList = new List<string>();
-	//private List<ShopItem> itemList = new List<ShopItem>();
 	private PlayerController pc;
 
 	// Use this for initialization
 	void Start () {
 		sr = gameObject.GetComponentsInChildren<SpriteRenderer> () [1];
 		pc = gameObject.GetComponent<PlayerController> ();
-		itemList.Add("Machine Gun");
-		itemList.Add("Grenade Launcher");
-		itemList.Add("HS Missle");
-
-		Object[] si = AssetDatabase.LoadAllAssetsAtPath ("Assets/ShopItems");
-		foreach (Object item in si) 
-		{
-			Debug.Log (item.name); //why is there nothing?
-		}
 	}
 	
 	// Update is called once per frame
@@ -88,14 +78,19 @@ public class ShopHandler : MonoBehaviour {
 		GUI.Box (costRect1, "$$3");
 		GUI.Box (descRect1, "description 3");*/
 
-		Rect shopRect = new Rect (	screenPos.x - charSize.x / 1.5f, 
+		/*Rect shopRect = new Rect (	screenPos.x - charSize.x / 1.5f, 
 									screenPos.y - charSize.y * 1.75f - 20f, 
 									charSize.x * 1.5f, 
-									charSize.y * 1.4f);
+									charSize.y * 1.4f);*/
+
+		Rect shopRect = new Rect (	screenPos.x - Screen.width / 16f, //screenPos.x - charSize.x / 1.5f, 
+			screenPos.y - charSize.y * 1.75f - 20f,
+			Screen.width / 8f,
+			Screen.height / 3f);
 
 		GUI.Box (shopRect, "Shop");
 
-		if (itemList.Count == 1) 
+		if(shopList.Count == 1) 
 		{
 			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y * 2 - 5f, shopRect.width - 10f, shopRect.height / 3 + 10f));
 
@@ -103,18 +98,18 @@ public class ShopHandler : MonoBehaviour {
 
 			GUILayout.BeginHorizontal ();
 
-			GUILayout.Button (itemList [0]);
+			GUILayout.Button (shopList[0].name);
 			GUILayout.Space (5f);
-			GUILayout.Button ("Cost 1");
+			GUILayout.Button (shopList[0].cost.ToString());
 
 			GUILayout.EndHorizontal ();
 
 			//GUILayout.Space (5f);
-			GUILayout.Button ("desc 1");
+			GUILayout.Button (shopList[0].description);
 			GUILayout.Space (10f);
 			GUILayout.EndArea ();
 		}
-		else if (itemList.Count > 0) 
+		else if(shopList.Count > 0) 
 		{
 			GUILayout.BeginArea (new Rect (shopRect.x + 5f, shopRect.y - 5f, shopRect.width - 10f, shopRect.height + 10f));
 			GUILayout.BeginVertical ();
@@ -123,64 +118,56 @@ public class ShopHandler : MonoBehaviour {
 
 			GUILayout.BeginHorizontal ();
 
-			GUILayout.Button (itemList [0]);
+			GUILayout.Button (shopList[0].name);
 			GUILayout.Space (5f);
-			GUILayout.Button ("Cost 1");
+			GUILayout.Button (shopList[0].cost.ToString());
 
 			GUILayout.EndHorizontal ();
 
 			//GUILayout.Space (5f);
-			GUILayout.Button ("desc 1");
+			GUILayout.Button (shopList[0].description);
 			GUILayout.Space (10f);
 
-			if (itemList.Count > 1) 
+			if(shopList.Count > 1)
 			{
 				GUILayout.BeginHorizontal ();
 
-				GUILayout.Button (itemList [1]);
+				GUILayout.Button (shopList[1].name);
 				GUILayout.Space (5f);
-				GUILayout.Button ("Cost 2");
+				GUILayout.Button (shopList[1].cost.ToString());
 
 				GUILayout.EndHorizontal ();
 
 				//GUILayout.Space (5f);
-				GUILayout.Button ("desc 2");
+				GUILayout.Button (shopList[1].description);
 				GUILayout.Space (10f);
 		
-
-				if (itemList.Count > 2) 
+				if(shopList.Count > 2)
 				{
 					GUILayout.BeginHorizontal ();
 
-					GUILayout.Button (itemList [2]);
+					GUILayout.Button (shopList[2].name);
 					GUILayout.Space (5f);
-					GUILayout.Button ("Cost 3");
+					GUILayout.Button (shopList[2].cost.ToString());
 
 					GUILayout.EndHorizontal ();
 
 					//GUILayout.Space (5f);
-					GUILayout.Button ("desc 3");
+					GUILayout.Button (shopList[2].description);
 					GUILayout.Space (10f);
 				}
 			}
 			GUILayout.EndVertical ();
 			GUILayout.EndArea ();
 		}
-
-		/*GameObject[] shopItems;
-		foreach (GameObject item in shopItems) 
-		{
-
-		}*/
 	}
 
 	void HandleInput()
 	{
-		// W/up & S/down control scrolling
-		//fire key to select, which substracts cost if can afford and removed ShopItem from shopInventory
-		//CircularBuffer<string> itemBuffer = new CircularBuffer<string>();
+		// W/I & S/K control scrolling
+		//fire key to select, which substracts cost if can afford and removes ShopItem from shopList
 		bool up, down, confirm;
-		string tmp;
+		ShopItem tmp;
 
 		// Player 1 controls
 		if(pc.isP1)
@@ -189,43 +176,50 @@ public class ShopHandler : MonoBehaviour {
 			down 	= Input.GetKeyDown(KeyCode.S);
 			confirm	= Input.GetKeyDown(KeyCode.F);
 		}
-		// Player 2 controls (will i,j,k,l work better?)
+		// Player 2 controls
 		else
 		{
-			up 		= Input.GetKeyDown(KeyCode.UpArrow);
-			down 	= Input.GetKeyDown(KeyCode.DownArrow);
+			up 		= Input.GetKeyDown(KeyCode.I);
+			down 	= Input.GetKeyDown(KeyCode.K);
 			confirm	= Input.GetKeyDown(KeyCode.Semicolon);
 		}
 
 		//rearrange list if given input
-		if (itemList.Count > 1) 
+		if(shopList.Count > 1)
 		{
 			if (up) 
 			{
-				itemList.Reverse ();
-				tmp = itemList [0];
-				itemList.RemoveAt (0);
-				itemList.Add (tmp);
-				itemList.Reverse ();
+				shopList.Reverse ();
+				tmp = shopList [0];
+				shopList.RemoveAt (0);
+				shopList.Add(tmp);
+				shopList.Reverse ();
 			} 
 			else if (down) 
 			{
-				tmp = itemList [0];
-				itemList.RemoveAt (0);
-				itemList.Add (tmp);
+				tmp = shopList [0];
+				shopList.RemoveAt (0);
+				shopList.Add(tmp);
 			}
 
 			//remove item if purchased
-			if (confirm) 
+			if(confirm && pc.currentCurrency >= shopList[1].cost)
 			{
-				itemList.RemoveAt (1);
-
+				pc.weapons.Add (shopList [1]);
+				pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
+				pc.currentCurrency -= shopList[1].cost;
+				//pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
+				shopList.RemoveAt (1);
 			}
 		} 
 		//remove item if purchased
-		else if (itemList.Count > 0 && confirm) 
+		else if (shopList.Count > 0 && confirm && pc.currentCurrency >= shopList[0].cost) 
 		{
-			itemList.RemoveAt (0);
+			pc.weapons.Add (shopList [0]);
+			pc.currentWeapon = pc.weapons.Count - 1; //switches current weapon to this weapon
+			pc.currentCurrency -= shopList[0].cost;
+			pc.currentWeaponTxt.text = pc.weapons [pc.currentWeapon].ToString ().Replace(" (ShopItem)", "");
+			shopList.RemoveAt (0);
 		}
 	}
 }

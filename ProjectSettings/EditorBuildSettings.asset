@@ -8,8 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
   - enabled: 1
-    path: Assets/Scenes/prototype.unity
+    path: Assets/Scenes/MAP-DEFAULT.unity
   - enabled: 1
     path: Assets/Scenes/HowToPlay.unity
   - enabled: 1
     path: Assets/Scenes/About.unity
+  - enabled: 1
+    path: Assets/Scenes/MapSelection.unity
+  - enabled: 1
+    path: Assets/Scenes/MAP-MOVINGPLATFORMS.unity
+  - enabled: 1
+    path: Assets/Scenes/MAP-RANDOMPLATFORMS.unity
+  - enabled: 1
+    path: Assets/Scenes/MAP-SPACE.unity
+  - enabled: 1
+    path: Assets/Scenes/MAP-SPACESTAGE.unity

@@ -6,9 +6,7 @@ public class Bullet : MonoBehaviour {
 
     /*public float knockbackStrength = 2.0f;
     public Vector2 knockbackDirection;*/
-	public bool isGrenade; 
     public int damage = 10;
-	public float spread;
     //public float stunTime = 1.0f;
     public float bulletForce = 1500.0f;
     public float lifespan = 5.0f;
@@ -18,7 +16,7 @@ public class Bullet : MonoBehaviour {
     private float spawnTime;
     private Vector2 oldVelocity;
     private Rigidbody2D _rigidBody;
-    public PlayerController parentPlayer;
+    private PlayerController parentPlayer;
     private Vector2 fireDirection;
 
 	private void Start()
@@ -29,26 +27,22 @@ public class Bullet : MonoBehaviour {
 
         var hurtboxTrigger = hurtboxTriggerObject.GetComponent<TriggerCallback>();
         hurtboxTrigger.Init(OnHurtboxTriggerEnter2D, OnHurtboxTriggerExit2D, null);
-
-
     }
 
 	private void Update()
     {
 		if (!isFired) 
 		{
-			float tmp = Random.Range(-spread, spread);
-			_rigidBody.AddForce (new Vector2 (transform.right.x + tmp, 
-				transform.right.y - tmp) * bulletForce);
+			_rigidBody.AddForce (new Vector2 (transform.right.x, transform.right.y) * bulletForce);
 			isFired = true;
 		}
-
+		
         if (Time.time - spawnTime > lifespan)
         {
             Destroy(gameObject);
         }
     }
-		
+
     /*public void Initialize(Vector2 direction, PlayerController player)
     {
         parentPlayer = player;
@@ -101,8 +95,7 @@ public class Bullet : MonoBehaviour {
                 player.TakeHit(trueKnockbackDirection * knockbackStrength, damage, stunTime);
                 Destroy(gameObject);*/
 				player.TakeDmg (damage);
-				parentPlayer.currentCurrency += 3;
-				parentPlayer.Currency.text = "Currency: " + parentPlayer.currentCurrency;
+				parentPlayer.currentCurrency += 5;
             }
         }
     }

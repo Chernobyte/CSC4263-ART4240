@@ -261,15 +261,11 @@ MonoBehaviour:
   maxSpeed: 10
   aimSpeed: 100
   bulletSpawnOffset: -1
+  fireRate: 1
   fRadius: 2
-  currentCurrency: 0
   gun: {fileID: 4782796647586824}
   gunPosOffset: {x: 0.8, y: -0.6, z: -0.1}
   healthBar: {fileID: 0}
-  win: {fileID: 0}
-  WhoWins: {fileID: 0}
-  Currency: {fileID: 0}
-  currentWeaponTxt: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: fd7ab5a2077a0724c9673d814f4ef160, type: 2}
   currentWeapon: 0
@@ -285,10 +281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenPos: {x: 0, y: 0, z: 0}
-  shopList:
-  - {fileID: 11400000, guid: 75388a73bb4968d418b3d4f34565e245, type: 2}
-  - {fileID: 11400000, guid: 1411c1551ef95094ea362ed840be0797, type: 2}
-  - {fileID: 11400000, guid: 7e322a7eb410c324b884a75143c51e5b, type: 2}
 --- !u!212 &212365242464129332
 SpriteRenderer:
   m_ObjectHideFlags: 1
